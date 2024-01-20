@@ -1,5 +1,3 @@
-
-interface ImportMeta {
-    env: Record<string, string | boolean | undefined>;
-  }
-   
+declare module 'import.meta' {
+  export const env: Record<string, any>;
+}
