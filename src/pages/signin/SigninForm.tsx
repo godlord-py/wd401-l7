@@ -13,7 +13,7 @@ const SigninForm: React.FC = () => {
         try {
             const response = await fetch(`${API_ENDPOINT}/users/sign_in`, {         
                 method: "POST",
-                headers: {
+                headers: {      
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({email: email, password: password}),

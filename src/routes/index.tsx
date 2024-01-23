@@ -1,18 +1,28 @@
-import React from 'react';
+import React, { Children } from 'react';
 import { Navigate, createBrowserRouter } from 'react-router-dom';
 import Signin from '../pages/signin';
 import Signup from '../pages/signup';
 import ProtectedRoute from './ProtectedRoute';
+import AccountLayout from '../layouts';
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <ProtectedRoute>
-            <h1>Home</h1>
+        element:( <ProtectedRoute>
+            <div>
+            <AccountLayout/>
+            </div>
         </ProtectedRoute>
-    },
+        ),
+    children: [
+        {
+            index:true,
+            element: <></>
+        }
+    ],
+},
     {
         path: 'signin',
-        element: <Signin />
+        element: <Signin /> 
     },
     {
         path: 'signup',
