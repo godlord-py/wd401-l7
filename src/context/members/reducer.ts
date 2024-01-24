@@ -1,4 +1,4 @@
-import {Matches} from "../types";
+import {Matches} from "../../types";
 
 export interface MatchState {
   matches: Matches[],

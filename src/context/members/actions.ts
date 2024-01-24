@@ -1,4 +1,4 @@
-import { API_ENDPOINT } from "../config/constants";
+import { API_ENDPOINT } from "../../config/constants";
 
 export const searchMatch = async (dispatch: any) => {
     const token = localStorage.getItem("authToken") ?? "";

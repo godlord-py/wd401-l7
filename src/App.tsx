@@ -3,7 +3,7 @@ import React from 'react'
 import router from './routes'
 import { RouterProvider } from 'react-router-dom'
 import { Navbar } from 'rsuite'
-import { MatchProvider } from './context/context'
+import { MatchProvider } from './context/members/context'
 function App() {
   return (
     <div>
