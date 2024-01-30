@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./NavBar";
 import { Outlet } from "react-router-dom";
-import HomePages from "../pages/home";
+import HomePages from "../pages/home/Dashboard";
 const AccountLayout = () => {
   return (
     <>
@@ -17,3 +17,4 @@ const AccountLayout = () => {
 };
 
 export default AccountLayout;
+

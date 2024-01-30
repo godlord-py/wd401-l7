@@ -4,6 +4,8 @@ import Signin from '../pages/signin';
 import Signup from '../pages/signup';
 import ProtectedRoute from './ProtectedRoute';
 import AccountLayout from '../layouts';
+import ArticleComponent from '/home/godlord/capstone301/sportnewsapp/src/pages/home/Article';
+import HomePage from '../pages/home/HomePage';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -13,13 +15,34 @@ const router = createBrowserRouter([
             </div>
         </ProtectedRoute>
         ),
-    children: [
-        {
-            index:true,
-            element: <></>
-        }
-    ],
 },
+
+{
+    path: 'match',
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/" replace />,
+      },
+      {
+        path: ':matchId',
+        element: <HomePage/>,
+      },
+    ],
+  },
+  {
+    path: 'article',
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/" replace />,
+      },
+      {
+        path: ':articleId',
+        element: <ArticleComponent />,
+      },
+    ],
+  },
     {
         path: 'signin',
         element: <Signin /> 

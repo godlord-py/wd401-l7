@@ -2,13 +2,15 @@ import './App.css'
 import React from 'react'
 import router from './routes'
 import { RouterProvider } from 'react-router-dom'
-import { Navbar } from 'rsuite'
 import { MatchProvider } from './context/members/context'
+import { ArticleProvider } from './context/articles/context'
 function App() {
   return (
     <div>
       <MatchProvider>
-      <RouterProvider router={router}/>
+        <ArticleProvider>
+          <RouterProvider router={router} />
+        </ArticleProvider>
       </MatchProvider>
     </div>  
   )

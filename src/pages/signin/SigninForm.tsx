@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
-
+import './signin.css'
 const SigninForm: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -32,16 +32,17 @@ const SigninForm: React.FC = () => {
       console.log("Sign in failed:", error);
     }
   };
-
+  
   return (
+    <div className="full-page-background">
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto mt-10 p-8 border border-gray-300 rounded-lg"
-    >
-      <h2 className="text-3xl font-semibold mb-4 text-center">
+      className="max-w-md mt-32 p-8 border border-gray-300 rounded-lg bg-black bg-opacity-50 mx-10"
+      >
+      <h2 className="text-3xl font-semibold mb-4 text-center text-white">
         Welcome To <div className="text-red-500">SportsNewsPage</div>
       </h2>
-      <p className="text-center p-2">Sign in to your account</p>
+      <p className="text-center p-2 text-white">Sign in to your account</p>
       <div className="mb-4 flex items-center">
         <label htmlFor="email" className="block text-sm font-medium text-white flex items-center">
           <svg
@@ -91,10 +92,18 @@ const SigninForm: React.FC = () => {
       >
         Sign In
       </button>
-      <p className="mt-4 text-center ">
-        Don't Have An Account? <Link to="/signup">Sign Up</Link>
+      <p className="mt-4 text-center text-white">
+        Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>
       </p>
     </form>
+    <div className="hidden md:block">
+        <img
+          src="src/assets/sportgif.gif"  
+          alt="sportgif"
+          className="w-96 h-96 object-cover absolute right-80 top-80  transform -translate-y-1/3 rounded-full"
+        />
+      </div>
+    </div>
   );
 };
 

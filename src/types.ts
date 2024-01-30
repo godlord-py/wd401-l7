@@ -18,3 +18,30 @@ export type Teams = {
     id: number;
     name: string;
 }
+
+export type Articles = {
+    id: number;
+    title: string;
+    thumbnail: string;
+    sport: {
+        id: number;
+        name: string;
+    };
+    date: string;
+    summary: string;
+    teams: Teams[];
+};
+
+export type ArticleDetails = {
+    id: number;
+    title: string;
+    summary: string;
+    thumbnail: string;
+    sport: {
+        id: number;
+        name: string;
+    };
+    date: string;
+    content: string;
+    teams: Teams[];
+}

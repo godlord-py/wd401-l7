@@ -16,6 +16,7 @@ const signout = () => {
 const NavBar = () => {
   const navigate = useNavigate();
   return (
+    <div className="rs-theme-dark">
   <Navbar>
     <Navbar.Brand href="#" aria-label="Sports News App">SportsNewsApp</Navbar.Brand>
     <Nav>
@@ -31,6 +32,7 @@ const NavBar = () => {
       </Nav.Menu>
     </Nav>
   </Navbar>
+  </div>
   );
 };
 
