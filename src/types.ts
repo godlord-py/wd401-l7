@@ -45,3 +45,8 @@ export type ArticleDetails = {
     content: string;
     teams: Teams[];
 }
+
+export type Sports = {
+    id: number;
+    name: string;
+}
