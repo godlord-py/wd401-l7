@@ -1,17 +1,25 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useArticleDispatch, useArticleState } from "../../context/articles/context";
-import { Articles } from "/home/godlord/capstone301/sportnewsapp/src/types";
+import { Articles, Sports } from "/home/godlord/capstone301/sportnewsapp/src/types";
 import { searchArticle } from "../../context/articles/actions";
+import { useSportDispatch, useSportState } from "../../context/sports/context";
+import { searchSport } from "../../context/sports/actions";
 
 const LiveArticles = () => {
   const dispatch = useArticleDispatch();
   const state: any = useArticleState();
   const { articles, isLoading, isError, errMsg } = state;
-
+  const sportDispatch = useSportDispatch();
+  const sportState: any = useSportState();
+  const { sports, isLoading: sportLoading, isError: sportError, errMsg: sportErrMsg } = sportState;
+  const [selectedSport, setSelectedSport] = useState("All");
   useEffect(() => {
     searchArticle(dispatch).then(response => {
       console.log('API Response:', response);
+    });
+    searchSport(sportDispatch).then((sportResponse) => {
+      console.log('Sports API Response:', sportResponse);
     });
   }, [dispatch]);
 
@@ -38,13 +46,35 @@ const LiveArticles = () => {
       </div>
     );
   }
+  //handle dropdown change
+  const handleSportChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedSport(event.target.value);
+  };
+  //filter articles by sport
+  const filteredArticles = articles.filter((article: Articles) => {
+    return selectedSport === "All" || article.sport.name === selectedSport;
+  });
 
   return (
     <div>
       <p className="font-bold text-2xl mb-3">Articles:</p>
+      <div className="mb-4">
+        <label className="text-md font-semibold mb-2">Filter by sports:</label>
+        <select
+          className="px-4 py-2 border rounded-md bg-grey-200 text-black focus:outline-none focus:ring focus:border-red-300"
+          value={selectedSport}
+          onChange={handleSportChange}
+        >
+          <option value="All">All Sports</option>
+          {sports.map((sport: Sports) => (
+            <option key={sport.id} value={sport.name}>
+              {sport.name}
+            </option>
+          ))}
+        </select>
+      </div>
       <div className="flex flex-col md:grid-cols-2 sm:grid-cols-1 gap-4">
-        {articles &&
-          articles.map((article: Articles) => (
+          {filteredArticles.map((article: Articles) => (
             <Link
               key={article.id}
               to={`/article/${article.id}`}

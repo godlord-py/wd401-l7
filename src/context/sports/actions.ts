@@ -12,9 +12,9 @@ export const searchSport = async (dispatch: any) => {
             },
         });
         const data = await response.json();
-        console.log("data from server:", data)
+        console.log("data from server(SPORTS):", data)
         
-        dispatch({ type: "FETCH_SPORT_SUCCESS", payload: data});
+        dispatch({ type: "FETCH_SPORT_SUCCESS", payload: data.sports});
     } catch (error) {
         dispatch({ type: "FETCH_SPORT_FAILURE", payload: error });
         console.log("Error:", error);
