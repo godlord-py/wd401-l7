@@ -1,8 +1,9 @@
 .full-page-background {
+     position: absolute;
     background-color: black;
     position: fixed;
     top: 0;
-    left: 0;
+    left: 120px;
     width: 100vw;
     height: 100vh;
     z-index: -1;

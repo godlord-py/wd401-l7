@@ -45,7 +45,7 @@ const SignupForm: React.FC = () => {
     <div className="full-page-background">
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mt-32 p-8 border border-gray-300 rounded-lg bg-black bg-opacity-50 mx-10"
+      className="max-w-md mt-32 p-8 border border-gray-300 rounded-lg bg-white bg-opacity-10 mx-10"
       >
       <h2 className="text-3xl font-semibold mb-4 text-center text-white">
         Welcome To <div className="text-red-500">SportsNewsPage</div>

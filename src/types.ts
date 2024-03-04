@@ -50,3 +50,8 @@ export type Sports = {
     id: number;
     name: string;
 }
+
+export type Passchange = {
+    current_password: string;
+    new_password: string;
+}
