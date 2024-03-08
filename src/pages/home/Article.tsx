@@ -59,9 +59,9 @@ const LiveArticles = () => {
     <div>
       <p className="font-bold text-2xl mb-3">Articles:</p>
       <div className="mb-4">
-        <label className="text-md font-semibold mb-2">Filter by sports:</label>
+        <label className="text-md font-semibold mb-2 mr-1">Filter by sports:</label>
         <select
-          className="px-4 py-2 border rounded-md bg-grey-200 text-black focus:outline-none focus:ring focus:border-red-300"
+          className="px-4 py-2 border-4 rounded-xl bg-grey-400 text-black focus:outline-none"
           value={selectedSport}
           onChange={handleSportChange}
         >

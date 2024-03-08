@@ -21,7 +21,7 @@ const NavBar = () => {
     <Navbar.Brand href="#" aria-label="Sports News App">SportsNewsApp</Navbar.Brand>
     <Nav>
       <Nav.Item icon={<HomeIcon />} aria-label="Home">Home</Nav.Item>
-      <Nav.Item aria-label="News">News</Nav.Item>
+      <Nav.Item aria-label="News" onClick={() => {navigate('/article')}}>Articles</Nav.Item>
     </Nav>
     <Nav pullRight>
       <Nav.Menu icon={<CogIcon />} title="Profile" aria-label="Profile Menu">
@@ -29,6 +29,7 @@ const NavBar = () => {
           console.log("Signout button clicked!");
           navigate(signout()); 
         }} aria-label="Signout">Signout</Nav.Item>
+        <Nav.Item href="/reset-password" aria-label="Change">Reset Password</Nav.Item>
       </Nav.Menu>
     </Nav>
   </Navbar>

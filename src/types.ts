@@ -55,3 +55,9 @@ export type Passchange = {
     current_password: string;
     new_password: string;
 }
+
+export type Team = {
+    id: number;
+    name: string;
+    play: string;
+}

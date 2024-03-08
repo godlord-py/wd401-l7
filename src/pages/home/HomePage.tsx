@@ -3,6 +3,7 @@ import { useMatchDispatch, useMatchState } from '../../context/members/context.t
 import { searchMatch } from '../../context/members/actions.ts';
 import "/home/godlord/capstone301/sportnewsapp/src/index.css";
 import { CalendarDaysIcon, MapPinIcon } from "@heroicons/react/20/solid";
+
 const HomePage = () => {
   const dispatch = useMatchDispatch();
   const state = useMatchState();
@@ -13,7 +14,7 @@ const HomePage = () => {
   }, [dispatch]);
 
   if (isError) {
-    return <p>{errorMessage}</p>;
+    return <p className="text-red-500">{errorMessage}</p>;
   }
 
   if (isLoading) {
@@ -22,30 +23,28 @@ const HomePage = () => {
 
   return (
     <div className="scroll-bar">
-      <p className="font-bold text-2xl mb-4 text-black dark:text-white px-2">Live Sports</p>
-      <div className="flex overflow-x-auto gap-2 pb-1 rounded-l-md px-2">
+      <h2 className="font-bold text-3xl mb-4 text-black dark:text-white px-4">Live Sports</h2>
+      <div className="flex overflow-x-auto gap-4 pb-2 rounded-l-md px-4">
         {matches.map((match) => (
-          <div key={match.id} className="flex-shrink-0 bg-black p-3 rounded-md text-black dark:bg-black dark:text-white border dark:border-white" style={{ minWidth: '260px' }}>
-            <div className="flex justify-between items-center mb-3 gap-6">
-              <p className="text-sm text-white">{match.teams[0].name} VS {match.teams[1].name}</p>
+          <div key={match.id} className="flex-shrink-0 bg-gray-800 p-4 rounded-md text-white border dark:border-white" style={{ minWidth: '260px' }}>
+            <div className="flex mr-2 justify-between items-center mb-4">
+              <p className="text-lg">{match.teams[0].name} VS {match.teams[1].name}</p>
               {match.isRunning ? (
-                <div className="flex items-center gap-1">
-                  <span className="p-1 rounded-full bg-green-700 animate-pulse" />
-                  <p className="text-green-700 text-sm">Live Now</p>
+                <div className="flex items-center gap-2">
+                  <span className="p-2 ml-2 rounded-full bg-green-500 animate-pulse" />
+                  <p className="text-green-700">Live Now</p>
                 </div>
               ) : (
-                <div className="flex items-center text-sm text-white gap-1">
-                  <CalendarDaysIcon className="w-4 h-4" />
-                  <p>{new Date(match.endsAt).toDateString()}</p>
+                <div className="flex ml-2 p-2 items-center text-sm">
+                  <CalendarDaysIcon className="w-5 h-5" />
+                  <p>{new Date(match.endsAt).toLocaleDateString()}</p>
                 </div>
               )}
             </div>
-            <div className="flex mt-2 items-center font-semibold gap-2 text-white">
-              <span>{match.teams[0].name}</span>
-              <span>VS</span>
-              <span>{match.teams[1].name}</span>
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-xl font-semibold">{match.teams[0].name} vs {match.teams[1].name}</p>
             </div>
-            <div className="flex text-sm text-gray-500 gap-1 items-center mt-1">
+            <div className="flex text-sm text-gray-500 items-center">
               <MapPinIcon className="w-4 h-4" />
               <p>{match.location}</p>
             </div>
@@ -57,4 +56,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-        
