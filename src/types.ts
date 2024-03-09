@@ -17,6 +17,7 @@ export type Matches = {
 export type Teams = {
     id: number;
     name: string;
+    plays?: string;
 }
 
 export type Articles = {
@@ -56,8 +57,3 @@ export type Passchange = {
     new_password: string;
 }
 
-export type Team = {
-    id: number;
-    name: string;
-    play: string;
-}

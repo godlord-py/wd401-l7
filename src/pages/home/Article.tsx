@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useArticleDispatch, useArticleState } from "../../context/articles/context";
-import { Articles, Sports } from "/home/godlord/capstone301/sportnewsapp/src/types";
+import { Articles, Sports ,Teams } from "/home/godlord/capstone301/sportnewsapp/src/types";
 import { searchArticle } from "../../context/articles/actions";
 import { useSportDispatch, useSportState } from "../../context/sports/context";
+import { useTeamDispatch, useTeamState } from "../../context/teams/context";
 import { searchSport } from "../../context/sports/actions";
-
+import {searchTeam} from "../../context/teams/actions";
 const LiveArticles = () => {
+  
   const dispatch = useArticleDispatch();
   const state: any = useArticleState();
   const { articles, isLoading, isError, errMsg } = state;
   const sportDispatch = useSportDispatch();
+  const TeamDispatch = useTeamDispatch();
   const sportState: any = useSportState();
+  const teamState: any = useTeamState();
   const { sports, isLoading: sportLoading, isError: sportError, errMsg: sportErrMsg } = sportState;
+  const { team, isLoading: teamLoading, isError: teamError, errMsg: teamErrMsg } = teamState;
   const [selectedSport, setSelectedSport] = useState("All");
+  const [selectedTeam, setSelectedTeam] = useState("All");
   useEffect(() => {
     searchArticle(dispatch).then(response => {
       console.log('API Response:', response);
@@ -21,7 +27,12 @@ const LiveArticles = () => {
     searchSport(sportDispatch).then((sportResponse) => {
       console.log('Sports API Response:', sportResponse);
     });
+    searchTeam(TeamDispatch).then((teamResponse) => {
+      console.log('Sports API Response:', teamResponse);
+    });
   }, [dispatch]);
+  console.log('teamState:', teamState);
+  console.log('teams:', team);
 
   if (isError) {
     return <p className="text-red-500">{errMsg}</p>;
@@ -50,6 +61,9 @@ const LiveArticles = () => {
   const handleSportChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedSport(event.target.value);
   };
+  const handleTeamChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedTeam(event.target.value);
+  };
   //filter articles by sport
   const filteredArticles = articles.filter((article: Articles) => {
     return selectedSport === "All" || article.sport.name === selectedSport;
@@ -72,6 +86,20 @@ const LiveArticles = () => {
             </option>
           ))}
         </select>
+        <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
+        <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
+      <select
+          className="px-4 py-2 border-4 rounded-xl m-2 bg-grey-400 text-black focus:outline-none"
+          value={selectedTeam}
+          onChange={handleTeamChange}
+      > 
+      <option value="All">All Teams</option>     {/*This line of code is not working and idk why*/}
+      {team && team.map((team: Teams) => (
+        <option key={team.id} value={team.name}>
+          {team.name}
+        </option>
+      ))}
+      </select>
       </div>
       <div className="flex flex-col md:grid-cols-2 sm:grid-cols-1 gap-4">
           {filteredArticles.map((article: Articles) => (

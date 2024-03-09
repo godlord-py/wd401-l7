@@ -1,6 +1,6 @@
 import { API_ENDPOINT } from "../../config/constants";
 
-export const searchSport = async (dispatch: any) => {
+export const searchTeam = async (dispatch: any) => {
     const token = localStorage.getItem("authToken") ?? "";
     try {
         dispatch({ type: "FETCH_TEAMS_REQUEST" });

@@ -34,7 +34,7 @@ export const TeamReducer = (
             ...state,
             isLoading: false,
             isError: false,
-            teams: action.payload,
+            team: action.payload,
         };
         case "FETCH_TEAMS_FAILURE":
         return {
