@@ -14,7 +14,7 @@ export const searchTeam = async (dispatch: any) => {
         const data = await response.json();
         console.log("data from server(TEAMS):", data)
         
-        dispatch({ type: "FETCH_TEAMS_SUCCESS", payload: data.teams});
+        dispatch({ type: "FETCH_TEAMS_SUCCESS", payload: data});
     } catch (error) {
         dispatch({ type: "FETCH_TEAMS_FAILURE", payload: error });
         console.log("Error:", error);

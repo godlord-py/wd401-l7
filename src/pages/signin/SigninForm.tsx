@@ -96,12 +96,11 @@ const SigninForm: React.FC = () => {
         Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>
       </p>
     </form>
-    <div className="hidden md:block">
-        <img
-          src="src/assets/sportgif.gif"  
-          alt="sportgif"
-          className="w-96 h-96 object-cover absolute right-80 top-80  transform -translate-y-1/3 rounded-full"
-        />
+    <div className="absolute top-60 right-40 p-8 text-white text-2xl font-bold">
+        <p>
+        <span style={{ color: 'red' }}>Where passion</span> meets play, and every victory tells a story.<br/> Welcome to
+          SportsNewsPage,<br/> your gateway to the heartbeat of the game.
+        </p>
       </div>
     </div>
   );

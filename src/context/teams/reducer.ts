@@ -1,14 +1,14 @@
 import {Teams} from "../../types";
 
 export interface TeamState {
-  team: Teams[],
+  teams: Teams[],
   isLoading: boolean,
   isError:  boolean,
   errorMessage: string,
 }
 
 export const initialState: TeamState = {
-  team: [],
+  teams: [],
   isLoading: false,
   isError: false,
   errorMessage: ""
@@ -34,7 +34,7 @@ export const TeamReducer = (
             ...state,
             isLoading: false,
             isError: false,
-            team: action.payload,
+            teams: action.payload,
         };
         case "FETCH_TEAMS_FAILURE":
         return {

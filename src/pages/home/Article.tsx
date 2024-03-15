@@ -17,22 +17,38 @@ const LiveArticles = () => {
   const sportState: any = useSportState();
   const teamState: any = useTeamState();
   const { sports, isLoading: sportLoading, isError: sportError, errMsg: sportErrMsg } = sportState;
-  const { team, isLoading: teamLoading, isError: teamError, errMsg: teamErrMsg } = teamState;
+  const { teams, isLoading: teamLoading, isError: teamError, errMsg: teamErrMsg } = teamState;
   const [selectedSport, setSelectedSport] = useState("All");
   const [selectedTeam, setSelectedTeam] = useState("All");
   useEffect(() => {
-    searchArticle(dispatch).then(response => {
-      console.log('API Response:', response);
-    });
-    searchSport(sportDispatch).then((sportResponse) => {
-      console.log('Sports API Response:', sportResponse);
-    });
-    searchTeam(TeamDispatch).then((teamResponse) => {
-      console.log('Sports API Response:', teamResponse);
-    });
-  }, [dispatch]);
+    const fetchData = async () => {
+      try {
+        const articleResponse = await searchArticle(dispatch);
+        console.log('Article API Response:', articleResponse);
+      } catch (articleError) {
+        console.error('Error fetching articles:', articleError);
+      }
+  
+      try {
+        const sportResponse = await searchSport(sportDispatch);
+        console.log('Sports API Response:', sportResponse);
+      } catch (sportError) {
+        console.error('Error fetching sports:', sportError);
+      }
+  
+      try {
+        const teamResponse = await searchTeam(TeamDispatch);
+        console.log('Teams API Response:', teamResponse);
+      } catch (teamError) {
+        console.error('Error fetching teams:', teamError);
+      }
+    };
+  
+    fetchData();
+  }, [dispatch, sportDispatch, TeamDispatch]);
+  
   console.log('teamState:', teamState);
-  console.log('teams:', team);
+  console.log('teams:', teams);
 
   if (isError) {
     return <p className="text-red-500">{errMsg}</p>;
@@ -84,17 +100,16 @@ const LiveArticles = () => {
             <option key={sport.id} value={sport.name}>
               {sport.name}
             </option>
-          ))}
+          ))}   
         </select>
         <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
-        <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
       <select
-          className="px-4 py-2 border-4 rounded-xl m-2 bg-grey-400 text-black focus:outline-none"
+          className="px-4 py-2 border-4 w-48 rounded-xl m-2 bg-grey-400 text-black focus:outline-none"
           value={selectedTeam}
           onChange={handleTeamChange}
       > 
-      <option value="All">All Teams</option>     {/*This line of code is not working and idk why*/}
-      {team && team.map((team: Teams) => (
+      <option value="All">All Teams</option>     
+      {teams && teams.map((team: Teams) => (
         <option key={team.id} value={team.name}>
           {team.name}
         </option>
