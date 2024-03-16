@@ -81,9 +81,13 @@ const LiveArticles = () => {
     setSelectedTeam(event.target.value);
   };
   //filter articles by sport
-  const filteredArticles = articles.filter((article: Articles) => {
-    return selectedSport === "All" || article.sport.name === selectedSport;
-  });
+ //filter articles by sport and team
+const filteredArticles = articles.filter((article: Articles) => {
+  const isSportMatch = selectedSport === "All" || article.sport.name === selectedSport;
+  const isTeamMatch = selectedTeam === "All" || article.teams.some(team => team.name === selectedTeam);
+  return isSportMatch && isTeamMatch;
+});
+
 
   return (
     <div>
