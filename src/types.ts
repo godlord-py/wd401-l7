@@ -54,6 +54,10 @@ export type Sports = {
 
 export type Passchange = {
     current_password: string;
-    new_password: string;
+    new_password: string;   
 }
 
+export type UserPreferences = {
+    sports: number[];
+    teams: number[];
+}

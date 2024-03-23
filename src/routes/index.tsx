@@ -6,6 +6,8 @@ import ProtectedRoute from './ProtectedRoute';
 import AccountLayout from '../layouts';
 import ArticleComponent from '/home/godlord/capstone301/sportnewsapp/src/pages/home/Article';
 import HomePage from '../pages/home/HomePage';
+import Pass from '../pages/Password/pass';
+import Preferences from '../pages/home/prefrences';
 const router = createBrowserRouter([
     {
         path: '/',
@@ -54,6 +56,14 @@ const router = createBrowserRouter([
     {
         path: '*',
         element: <Navigate to="/signin" replace />
+    },
+    {
+      path: 'reset-password',
+      element: <Pass/>
+    },
+    {
+      path: 'preference',
+      element: <Preferences/>
     }
 ]);
 

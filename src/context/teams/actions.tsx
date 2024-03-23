@@ -13,6 +13,7 @@ export const searchTeam = async (dispatch: any) => {
         });
         const data = await response.json();
         console.log("data from server(TEAMS):", data)
+        console.log("data from server(TOKEN):", token)
         
         dispatch({ type: "FETCH_TEAMS_SUCCESS", payload: data});
     } catch (error) {
