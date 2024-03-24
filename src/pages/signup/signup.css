@@ -1,5 +1,8 @@
 .full-page-background {
-    background-color: black;
+    background-color: rgb(10, 10, 10);
+    background-image: url("/home/godlord/capstone301/sportnewsapp/src/assets/web.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     position: fixed;
     top: 0;
     left: 0;
@@ -8,5 +11,34 @@
     z-index: -1;
     overflow: hidden;
     padding: 20px;
-    
+  }
+
+  @keyframes slide {
+    0% {
+      opacity: 50%;
+      transform: translateX(-100px);
+    }
+    100% {
+      opacity: 100%;
+      transform: translateX(0);
+    }
+  }
+  @keyframes rgb {
+    0% {
+      color: rgb(246, 64, 64);
+    }
+    50% {
+      color: rgb(78, 78, 254);
+    }
+    100% {
+      color: rgb(98, 255, 98);  
+    }
+  }
+  .anime {
+    animation: slide 1s ease-in-out;
+
+  }
+
+  .rgb {
+    animation: rgb 8s alternate infinite;
   }

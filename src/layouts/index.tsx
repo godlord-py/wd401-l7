@@ -7,7 +7,7 @@ const AccountLayout = () => {
     <>
       <Navbar/>
       <main>
-        <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+        <div className="back mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
           <HomePages />
           <Outlet />
         </div>

@@ -84,12 +84,12 @@ const LiveArticles = () => {
     setSelectedTeam("All"); // Reset team selection when sport changes
   };
 
-  // Handle dropdown change for teams
-  const handleTeamChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedTeam(event.target.value);
-    const selectedTeamPlays = teams.find(team => team.name === event.target.value)?.plays || "All";
-    setSelectedSport(selectedTeamPlays);
-  };
+// Handle dropdown change for teams
+const handleTeamChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  setSelectedTeam(event.target.value);
+  const selectedTeamPlays = teams.find(team => team.name === event.target.value)?.plays || "All";
+  setSelectedSport(selectedTeamPlays); // Update selectedSport based on the selected team's sport
+};
 
   // Filter articles by sport and team
   const filteredArticles = articles.filter((article: Articles) => {
@@ -108,11 +108,11 @@ const LiveArticles = () => {
 
   return (
     <div>
-      <p className="font-bold text-2xl mb-3">Articles:</p>
+      <p className="font-bold text-3xl text-black dark:text-white">Articles:</p>
       <div className="mb-4">
-        <label className="text-md font-semibold mb-2 mr-1">Filter by sports:</label>
+        <label className="text-md font-semibold mb-2 mr-2">Filter by sports:</label>
         <select
-          className="px-4 py-2 border-4 rounded-xl bg-grey-400 text-black focus:outline-none"
+          className="px-4 py-2 border-gray-300 border-4 rounded-xl bg-grey-400 text-black focus:outline-none hover:shadow-lg hover:bg-blue-100"
           value={selectedSport}
           onChange={handleSportChange}
         >
@@ -125,7 +125,7 @@ const LiveArticles = () => {
         </select>
         <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
         <select
-          className="px-4 py-2 border-4 w-48 rounded-xl m-2 bg-grey-400 text-black focus:outline-none"
+          className="px-4 py-2 border-gray-300 border-4 w-48 rounded-xl m-2 bg-grey-400 text-black focus:outline-none hover:shadow-lg hover:bg-blue-100"
           value={selectedTeam}
           onChange={handleTeamChange}
         >

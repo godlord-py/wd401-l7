@@ -3,6 +3,7 @@ import { useMatchDispatch, useMatchState } from '../../context/members/context.t
 import { searchMatch } from '../../context/members/actions.ts';
 import "/home/godlord/capstone301/sportnewsapp/src/index.css";
 import { CalendarIcon, MapIcon, RefreshIcon} from '@heroicons/react/solid';
+import { ArrowCircleUpIcon } from '@heroicons/react/outline';
 
 const HomePage = () => {
   const dispatch = useMatchDispatch();
@@ -22,7 +23,16 @@ const HomePage = () => {
   }
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex flex-wrap">
+        {[...Array(3)].map((_, index) => (
+          <div key={index} className="flex-shrink-0 bg-gray-300 p-4 rounded-md mr-4 mb-4" style={{ minWidth: '360px', minHeight: '150px' }}>
+             <div className="w-50 h-10 bg-gray-200 rounded-lg"></div>
+            <div className="flex-1"></div>
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
@@ -56,6 +66,7 @@ const HomePage = () => {
             <div className="flex text-sm text-gray-500 items-center">
               <MapIcon className="w-4 h-4" />
               <p>{match.location}</p>
+              <RefreshIcon onClick={handleRefresh} className="w-6 h-6 ml-40" />
             </div>
           </div>
         ))}

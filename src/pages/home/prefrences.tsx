@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
-import { BookmarkIcon } from  "@heroicons/react/outline";
+import { BookmarkIcon } from "@heroicons/react/outline";
 import { UserPreferences, Sports, Teams } from "/home/godlord/capstone301/sportnewsapp/src/types";
 import { useSportState } from "../../context/sports/context";
 import { useTeamState } from "../../context/teams/context";
@@ -41,7 +41,6 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
   const searchPreferences = async () => {
     try {
       const token = localStorage.getItem("authToken");
-      console.log(token);
       const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
         method: 'GET',
         headers: {
@@ -57,7 +56,7 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
     }
   };
 
-  const patchPreferences = async () => { //user preference update 
+  const patchPreferences = async () => {
     try {
       const token = localStorage.getItem("authToken");
       const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
@@ -79,30 +78,35 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
         preferences: data.preferences,
       };
       localStorage.setItem("userData", JSON.stringify(patchedUserData));
-      navigate('/');
+      onClose(); // Close the modal
+      navigate('/'); // Navigate to the home page
     } catch (error) {
       console.error('Error updating user preferences:', error);
     }
   };
 
   const changeSport = (sportId: number) => {
-    setUserPreferences((prevPreferences) => ({
-      ...prevPreferences,
-      sports: prevPreferences.sports.includes(sportId)
-        ? prevPreferences.sports.filter((selectedSport) => selectedSport !== sportId)
-        : [...prevPreferences.sports, sportId],
-    }));
+    setUserPreferences((prevPreferences) => {
+      const sportsArray = prevPreferences.sports || []; 
+      return {
+        ...prevPreferences,
+        sports: sportsArray.includes(sportId)
+          ? sportsArray.filter((selectedSport) => selectedSport !== sportId)
+          : [...sportsArray, sportId],
+      };
+    });
   };
   
   const changeTeam = (teamId: number) => {
     setUserPreferences((prevPreferences) => ({
       ...prevPreferences,
-      teams: prevPreferences.teams.includes(teamId)
+      teams: Array.isArray(prevPreferences.teams) && prevPreferences.teams.includes(teamId)
         ? prevPreferences.teams.filter((selectedTeam) => selectedTeam !== teamId)
-        : [...prevPreferences.teams, teamId],
+        : [...(prevPreferences.teams ?? []), teamId],
     }));
+    closeModal(); // Close the modal after changing the team
   };
-  
+
   const closeModal = () => {
     setIsOpen(false);
     onClose(); // Call the onClose function passed from props
@@ -154,12 +158,8 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
                     {sports.map((sport: Sports) => (
                       <button
                         key={sport.id}
+                        className={userPreferences.sports.includes(sport.id) ? "bg-blue-500 text-white" : ""}
                         onClick={() => changeSport(sport.id)}
-                        // className={`px-3 py-1 rounded-lg focus:outline-none ${
-                        //   userPreferences.sports.includes(sport.id)
-                        //     ? "bg-blue-500 text-white"
-                        //     : "bg-gray-200 text-gray-600"
-                        // }`}
                       >
                         {sport.name}
                       </button>
@@ -172,12 +172,8 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
                     {teams.map((team: Teams) => (
                       <button
                         key={team.id}
+                        className={userPreferences.teams.includes(team.id) ? "bg-blue-500 text-white" : ""}
                         onClick={() => changeTeam(team.id)}
-                        // className={`px-3 py-1 rounded-lg focus:outline-none ${
-                        //   userPreferences.teams.includes(team.id)
-                        //     ? "bg-blue-500 text-white"
-                        //     : "bg-gray-200 text-gray-600"
-                        // }`}
                       >
                         {team.name}
                       </button>

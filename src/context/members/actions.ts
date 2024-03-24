@@ -10,7 +10,7 @@ export const searchMatch = async (dispatch: any) => {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
             },
-        });
+        }); 
         const data = await response.json();
         console.log("data from server:", data)
         

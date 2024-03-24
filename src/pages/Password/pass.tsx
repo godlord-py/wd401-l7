@@ -14,7 +14,7 @@ const Pass: React.FC = () => {
     event.preventDefault();
     try {
       const response = await fetch(`${API_ENDPOINT}/user/password`, {
-        method: 'POST',
+        method: 'PATCH',
         headers: {
           'Content-type': 'application/json',
           Authorization: `Bearer ${token}`,
@@ -43,87 +43,90 @@ const Pass: React.FC = () => {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={closeModal}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
+        <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={closeModal}>
+          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0"
+              enterTo="opacity-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            </Transition.Child>
 
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-2xl bg-green-700 text-white p-6 text-left align-middle shadow-xl transition-all">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-3xl font-bold leading-6 text-white mb-2"
-                  >
-                    Reset your account password
-                  </Dialog.Title>
-                  <p className="mb-4 text-sm">Enter your credentials.</p>
-                  <div className="mt-4 bg-white -m-6 p-6 text-black">
-                    <form
-                      onSubmit={handleSubmit}
-                      className="w-full bg-white px-6 flex flex-col items-start justify-center"
-                    >
-                      <div className="mb-3">
-                        <span className="text-red-500">{/* Display resetError here */}</span>
-                      </div>
-                      <div className="mb-6 w-full">
-                        <label
-                          htmlFor="current_password"
-                          className="block mb-1 text-sm font-medium text-gray-900"
-                        >
-                          Current password
-                        </label>
-                        <input
-                          type="password"
-                          id="current_password"
-                          value={currentPass}
-                          onChange={(e) => setcurrentPass(e.target.value)}
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
-                        />
-                      </div>
-                      <div className="mb-6 w-full">
-                        <label
-                          htmlFor="new_password"
-                          className="block mb-1 text-sm font-medium text-gray-900"
-                        >
-                          New password
-                        </label>
-                        <input
-                          type="password"
-                          id="new_password"
-                          value={newPass}
-                          onChange={(e) => setNewPass(e.target.value)}
-                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
-                        />
-                      </div>
-                      <button
-                        type="submit"
-                        className="w-full md:w-fit bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
-                      >
-                        Reset Password
-                      </button>
-                    </form>
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">
+              &#8203;
+            </span>
+
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <div className="inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                <div>
+                  <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
+                    <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
                   </div>
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
+                  <div className="mt-3 text-center sm:mt-5">
+                    <Dialog.Title as="h3" className="text-lg leading-6 font-medium text-gray-900">
+                      Reset your account password
+                    </Dialog.Title>
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500">Enter your credentials</p>
+                    </div>
+                  </div>
+                </div>
+                <form onSubmit={handleSubmit} className="mt-5 sm:mt-6">
+                  <div className="mb-4">
+                    <label htmlFor="current_password" className="block text-sm font-medium text-gray-700">
+                      Current password
+                    </label>
+                    <input
+                      type="password"
+                      id="current_password"
+                      value={currentPass}
+                      onChange={(e) => setcurrentPass(e.target.value)}
+                      className="mt-1 p-2 border-black border-2 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+                  <div className="mb-4">
+                    <label htmlFor="new_password" className="block text-sm font-medium text-gray-700">
+                      New password
+                    </label>
+                    <input
+                      type="password"
+                      id="new_password"
+                      value={newPass}
+                      onChange={(e) => setNewPass(e.target.value)}
+                      className="mt-1 p-2 border-black border-2 focus:ring-green-500 focus:border-green-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+                  <div className="text-center">
+                    <button
+                      type="submit"
+                      className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                    >
+                      Reset Password
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </Transition.Child>
           </div>
         </Dialog>
       </Transition>
