@@ -2,10 +2,12 @@ import React, { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { BookmarkIcon } from "@heroicons/react/outline";
 import { UserPreferences, Sports, Teams } from "/home/godlord/capstone301/sportnewsapp/src/types";
-import { useSportState } from "../../context/sports/context";
-import { useTeamState } from "../../context/teams/context";
+import { useSportState, useSportDispatch } from "../../context/sports/context";
+import { useTeamState, useTeamDispatch } from "../../context/teams/context";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
+import { searchArticle } from "../../context/articles/actions";
+import { useArticleDispatch } from "../../context/articles/context";
 
 interface PreferencesProps {
   show: boolean;
@@ -17,20 +19,15 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
     sports: [],
     teams: [],
   });
+  const dispatch = useArticleDispatch();
   const [isOpen, setIsOpen] = useState(false);
-  const navigate = useNavigate();
-  const sportState: any = useSportState();
-  const teamState: any = useTeamState();
-  const {
-    sports,
-    isError: sportError,
-    errMsg: sportErrorMessage,
-  } = sportState;
-  const {
-    teams,
-    isError: teamError,
-    errMsg: teamErrorMessage,
-  } = teamState;
+  const navigate = useNavigate(); 
+  const sportDispatch = useSportDispatch();
+  const teamDispatch = useTeamDispatch();
+  const sportState = useSportState();
+  const teamState = useTeamState();
+  const { sports, isError: sportError, errMsg: sportErrorMessage } = sportState;
+  const { teams, isError: teamError, errMsg: teamErrorMessage } = teamState;
 
   useEffect(() => {
     if (show) {
@@ -56,33 +53,10 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
     }
   };
 
-  const patchPreferences = async () => {
-    try {
-      const token = localStorage.getItem("authToken");
-      const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
-        method: 'PATCH',
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          preferences: userPreferences,
-        }),
-      });
-      const data = await res.json();
-      const userData = localStorage.getItem("userData") ?? "";
-      const JSONdata = JSON.parse(userData);
-
-      const patchedUserData = {
-        ...JSONdata,
-        preferences: data.preferences,
-      };
-      localStorage.setItem("userData", JSON.stringify(patchedUserData));
-      onClose(); // Close the modal
-      navigate('/'); // Navigate to the home page
-    } catch (error) {
-      console.error('Error updating user preferences:', error);
-    }
+  const closeModal = () => {
+    setIsOpen(false);
+    onClose(); // Call the onClose function passed from props
+    navigate("../../");
   };
 
   const changeSport = (sportId: number) => {
@@ -104,14 +78,58 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
         ? prevPreferences.teams.filter((selectedTeam) => selectedTeam !== teamId)
         : [...(prevPreferences.teams ?? []), teamId],
     }));
-    closeModal(); // Close the modal after changing the team
+    closeModal(); 
+  };
+  useEffect(() => {
+    searchArticle(dispatch)
+  }, [dispatch]);
+
+  const handleRefresh = () => {
+    useEffect(() => {
+      searchArticle(dispatch)
+    }, [dispatch]);  
   };
 
-  const closeModal = () => {
-    setIsOpen(false);
-    onClose(); // Call the onClose function passed from props
-    navigate("../../");
+  const refreshArticles = async () => {
+    try {
+      await searchArticle(dispatch);
+    } catch (error) {
+      console.error('Error refreshing articles:', error);
+    }
   };
+  const patchPreferences = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
+        method: 'PATCH',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          preferences: userPreferences,
+        }),
+      });
+      const data = await res.json();
+      const userData = localStorage.getItem("userData") ?? "";
+      const JSONdata = JSON.parse(userData);
+  
+      const patchedUserData = {
+        ...JSONdata,
+        preferences: data.preferences,
+      };
+      localStorage.setItem("userData", JSON.stringify(patchedUserData));
+      onClose(); 
+     
+      window.location.reload(); 
+  
+    } catch (error) {
+      console.error('Error updating user preferences:', error);
+    }
+  };
+  
+  
+  
 
   return (
     <>
