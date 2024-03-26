@@ -12,6 +12,7 @@ export type Matches = {
     endsAt: string;
     isRunning: boolean;
     teams: Teams[];
+    score: { [teamName: string]: string };
 }
 
 export type Teams = {

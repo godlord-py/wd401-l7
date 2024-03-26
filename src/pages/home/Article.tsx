@@ -5,9 +5,10 @@ import { useSportDispatch, useSportState } from "../../context/sports/context";
 import { useTeamDispatch, useTeamState } from "../../context/teams/context";
 import { searchSport } from "../../context/sports/actions";
 import { searchTeam } from "../../context/teams/actions";
-import { Articles, Sports, Teams, UserPreferences } from "../../types";
+import { Articles, Sports, Teams, UserPreferences } from "../../types"; // Assuming you have types defined in a file named types.ts
 import ArticleModal from "./ArticleModel"; 
 import { API_ENDPOINT } from "../../config/constants";
+import useUserPreferences from "./userpref";
 
 const LiveArticles = () => {
   const dispatch = useArticleDispatch();
@@ -21,8 +22,8 @@ const LiveArticles = () => {
   const { sports, isLoading: sportLoading, isError: sportError, errMsg: sportErrMsg } = sportState;
   const { teams, isLoading: teamLoading, isError: teamError, errMsg: teamErrMsg } = teamState;
   
-  const [selectedSport, setSelectedSport] = useState("All");
-  const [selectedTeam, setSelectedTeam] = useState("All");
+  const [selectedSport, setSelectedSport] = useState<string>("All");
+  const [selectedTeam, setSelectedTeam] = useState<string>("All");
   const [selectedArticle, setSelectedArticle] = useState<Articles | null>(null);
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
     sports: [],
@@ -75,15 +76,12 @@ const LiveArticles = () => {
       // Filter articles by user preferences
       const filteredArticles = articles.filter((article: Articles) => {
         const isSportMatch = selectedSport === "All" || article.sport.name === selectedSport;
-        const isTeamMatch = selectedTeam === "All" || article.teams.some(team => team.name === selectedTeam);
+        const isTeamMatch = selectedTeam === "All" || (article.teams && article.teams.some((team: Teams) => team.name === selectedTeam));
         const isUserPreferenceMatch = userPreferences.sports.length === 0 || userPreferences.sports.includes(article.sport.id);
         return isSportMatch && isTeamMatch && isUserPreferenceMatch;      
       });
-      // Set the filtered articles state
       setFilteredArticles(filteredArticles);
     };
-
-    // Call the function to fetch and filter articles whenever user preference or articles change
     fetchAndFilterArticles();
   }, [articles, selectedSport, selectedTeam, userPreferences]);
 
@@ -94,73 +92,115 @@ const LiveArticles = () => {
   const handleCloseArticleModal = () => {
     setSelectedArticle(null);
   };
- 
+  useEffect(() => {
+    // Set the selectedSport based on user preferences when they change
+    if (userPreferences.sports.length > 0) {
+      const selectedSportId = userPreferences.sports[0];
+      const selectedSport = sports.find((sport: Sports) => sport.id === selectedSportId);
+      if (selectedSport) {
+        setSelectedSport(selectedSport.name);
+      }
+    } else {
+      // If no user preferences are selected, set selectedSport to "All"
+      setSelectedSport("All");
+    }
+  }, [userPreferences, sports]);
+  
   return (
     <div>
-      <p className="font-bold text-3xl text-black dark:text-white">Articles:</p>
-      <div className="mb-4">
-        <label className="text-md font-semibold mb-2 mr-2">Filter by sports:</label>
-        <select
-          className="px-4 py-2 border-gray-300 border-4 rounded-xl bg-grey-400 text-black focus:outline-none hover:shadow-lg hover:bg-blue-100"
-          value={selectedSport} 
-          onChange={(event) => setSelectedSport(event.target.value)}
-        >
-          <option value="All">All Sports</option>
-          {sports.map((sport: Sports) => (
-            <option key={sport.id} value={sport.name}>
-              {sport.name}
-            </option>
-          ))}
-        </select>
-        <label className="text-md font-semibold mb-2 ml-6">Filter by Teams:</label>
-        <select
-          className="px-4 py-2 border-gray-300 border-4 w-48 rounded-xl m-2 bg-grey-400 text-black focus:outline-none hover:shadow-lg hover:bg-blue-100"
-          value={selectedTeam}
-          onChange={(event) => setSelectedTeam(event.target.value)}
-        >
-          <option value="All">All Teams</option>
-          {teams.map((team: Teams) => (
-            <option key={team.id} value={team.name}>
-              {team.name}
-            </option>
-          ))}
-        </select>
+      <p className="font-bold text-3xl text-black dark:text-white mb-4">Articles:</p>
+<div className="flex items-center justify-center mb-4">
+<label className="text-md font-semibold mr-2">Filter by sports:</label>
+<select
+  className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
+  value={selectedSport} 
+  onChange={(event) => {
+    setSelectedSport(event.target.value);
+    // Automatically select the sport in user preferences if available
+    if (userPreferences.sports.length > 0) {
+      const selectedSportId = sports.find((sport: Sports) => sport.name === event.target.value)?.id;
+      if (selectedSportId && userPreferences.sports.includes(selectedSportId)) {
+        setSelectedSport(event.target.value);
+      }
+    }
+  }}
+>
+  <option value="All">All Sports</option>
+  {userPreferences.sports.length === 0 && (
+    sports.map((sport: Sports) => (
+      <option key={sport.id} value={sport.name}>
+        {sport.name}
+      </option>
+    ))
+  )}
+
+  {userPreferences.sports.length > 0 && (
+    userPreferences.sports.map((sportId: number) => {
+      const sport = sports.find((s: Sports) => s.id === sportId);
+      return (
+        <option key={sport?.id} value={sport?.name}>
+          {sport?.name}
+        </option>
+      );
+    })
+  )}
+</select>
+
+
+
+<label className="text-md font-semibold ml-8 mr-2">Filter by Teams:</label>
+<select
+  className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
+  value={selectedTeam}
+  onChange={(event) => setSelectedTeam(event.target.value)}
+>
+  <option value="All">All Teams</option>
+  {teams
+    .filter((team: Teams) => selectedSport === "All" || team.plays === selectedSport)
+    .map((team: Teams) => (
+      <option key={team.id} value={team.name}>
+        {team.name}
+      </option>
+    ))}
+</select>
+
+
+
+</div>
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 hover:-translate-y-1 hover:scale-105 cursor-pointer">
+  {filteredArticles.map((article: Articles) => (
+    <div
+      key={article.id}
+      className="flex flex-col rounded-lg bg-white border border-gray-200 shadow-md transition-all hover:bg-blue-200 duration-1000 hover:shadow-lg hover:-translate-y-1 hover:scale-105 cursor-pointer"
+      onClick={() => handleOpenArticleModal(article)}
+    >
+      <img
+        className="w-full rounded-t-lg object-cover h-48"
+        src={article.thumbnail}
+        alt="thumbnail"
+      />
+      <div className="p-6">
+        <p className="text-xs text-neutral-500">
+          {article.sport.name}
+        </p>
+        <h5 className="mt-2 text-xl font-semibold text-neutral-800">
+          {article.title}
+        </h5>
+        <p className="mb-4 text-sm text-neutral-600">
+          {article.summary}
+        </p>
+        <p className="text-xs text-neutral-500">
+          {new Date(article.date).toDateString()}
+        </p>
       </div>
-      <div className="flex flex-col md:grid-cols-2 sm:grid-cols-1 gap-4">
-        {filteredArticles.map((article: Articles) => (
-          <div
-            key={article.id}
-            className="flex rounded-lg bg-white border border-gray-200 shadow-md hover:shadow-xl transition-shadow cursor-pointer"
-            onClick={() => handleOpenArticleModal(article)}
-          >
-            <img
-              className="w-32 rounded-l-lg object-cover h-auto"
-              src={article.thumbnail}
-              alt="thumbnail"
-            />
-            <div className="flex flex-col justify-start p-6">
-              <p className="text-xs text-neutral-500 ">
-                {article.sport.name}
-              </p>
-              <h5 className="mt-2 text-xl font-semibold text-neutral-800 ">
-                {article.title}
-              </h5>
-              <p className="mb-4 text-sm text-neutral-600 ">
-                {article.summary}
-              </p>
-              <p className="text-xs text-neutral-500 ">
-                {new Date(article.date).toDateString()}
-              </p>
-            </div>
-          </div>
-        ))}
-        </div>
-        {selectedArticle && (
-          <ArticleModal article={selectedArticle} onClose={handleCloseArticleModal} />
-        )}
-      </div>
-  
-  );
+    </div>
+  ))}
+</div>
+{selectedArticle && (
+  <ArticleModal article={selectedArticle} onClose={handleCloseArticleModal} />
+)}
+</div>
+);
 };
 
 export default LiveArticles;

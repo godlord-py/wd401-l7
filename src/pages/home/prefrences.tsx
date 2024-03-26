@@ -1,20 +1,22 @@
 import React, { Fragment, useEffect, useState } from "react";
 import { Transition, Dialog } from "@headlessui/react";
 import { BookmarkIcon } from "@heroicons/react/outline";
-import { UserPreferences, Sports, Teams } from "/home/godlord/capstone301/sportnewsapp/src/types";
+import { Sports, Teams, UserPreferences } from "/home/godlord/capstone301/sportnewsapp/src/types";
 import { useSportState, useSportDispatch } from "../../context/sports/context";
 import { useTeamState, useTeamDispatch } from "../../context/teams/context";
 import { useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
 import { searchArticle } from "../../context/articles/actions";
 import { useArticleDispatch } from "../../context/articles/context";
+import useUserPreferences from "./userpref";
 
 interface PreferencesProps {
   show: boolean;
   onClose: () => void;
+  authToken: string | null; // Add authToken prop
 }
 
-const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
+const Preferences: React.FC<PreferencesProps> = ({ show, onClose, authToken }) => {
   const [userPreferences, setUserPreferences] = useState<UserPreferences>({
     sports: [],
     teams: [],
@@ -28,21 +30,27 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
   const teamState = useTeamState();
   const { sports, isError: sportError, errMsg: sportErrorMessage } = sportState;
   const { teams, isError: teamError, errMsg: teamErrorMessage } = teamState;
+// Fetch user preferences using the hook
+const userpref = useUserPreferences(authToken);
 
-  useEffect(() => {
-    if (show) {
-      searchPreferences();
-    }
-  }, [show]);
+useEffect(() => {
+  if (show && authToken && userpref) {
+    setIsOpen(true);
+  } else {
+    setIsOpen(false);
+  }
+}, [show, authToken, userpref]);
+
 
   const searchPreferences = async () => {
     try {
-      const token = localStorage.getItem("authToken");
+      if (!authToken) return;
+
       const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       });
       const data = await res.json();
@@ -55,7 +63,7 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
 
   const closeModal = () => {
     setIsOpen(false);
-    onClose(); // Call the onClose function passed from props
+    onClose(); 
     navigate("../../");
   };
 
@@ -70,7 +78,7 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
       };
     });
   };
-  
+
   const changeTeam = (teamId: number) => {
     setUserPreferences((prevPreferences) => ({
       ...prevPreferences,
@@ -80,31 +88,20 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
     }));
     closeModal(); 
   };
+
   useEffect(() => {
-    searchArticle(dispatch)
+    searchArticle(dispatch);
   }, [dispatch]);
 
-  const handleRefresh = () => {
-    useEffect(() => {
-      searchArticle(dispatch)
-    }, [dispatch]);  
-  };
-
-  const refreshArticles = async () => {
-    try {
-      await searchArticle(dispatch);
-    } catch (error) {
-      console.error('Error refreshing articles:', error);
-    }
-  };
   const patchPreferences = async () => {
     try {
-      const token = localStorage.getItem("authToken");
+      if (!authToken) return;
+
       const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
         method: 'PATCH',
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({
           preferences: userPreferences,
@@ -122,14 +119,10 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
       onClose(); 
      
       window.location.reload(); 
-  
     } catch (error) {
       console.error('Error updating user preferences:', error);
     }
   };
-  
-  
-  
 
   return (
     <>
@@ -147,50 +140,51 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
             >
               <Dialog.Overlay className="fixed inset-0 bg-black bg-opacity-50" />
             </Transition.Child>
-
+  
             <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="bg-white rounded-lg p-6 max-w-sm mx-auto z-50">
-                <div className="flex justify-between items-center mb-4">
-                  <h3 className="text-lg font-semibold">Preferences</h3>
-                  <button
-                    className="text-gray-500 hover:text-gray-700"
-                    onClick={patchPreferences}
-                  >
-                    <BookmarkIcon className="w-5 h-5" />
-                  </button>
-                </div>
-                <p className="text-sm text-gray-500 mb-4">
-                  Select your favourite sports and teams for a tailored feed.
-                </p>
-                <div className="mb-4">
-                  <p className="font-medium">Select your favorite sports:</p>
+                as={Fragment}
+                enter="ease-out duration-300"
+                enterFrom="opacity-0 scale-95"
+                enterTo="opacity-100 scale-100"
+                leave="ease-in duration-200"
+                leaveFrom="opacity-100 scale-100"
+                leaveTo="opacity-0 scale-95"
+              >
+                <div className="bg-white rounded-lg p-6 max-w-lg mx-auto z-50">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-lg font-semibold">Preferences:</h3>
+                    <button
+                      className="text-gray-900 hover:text-gray-400"
+                      onClick={patchPreferences}
+                    >
+                      <BookmarkIcon className="w-6 h-6" />
+                    </button>
+                  </div>
+                  <p className="text-sm text-gray-500 mb-4">
+                    Select your favorite sports and teams for a tailored feed.
+                  </p>
+                  <div className="mb-4">
+                  <p className="font-medium text-lg font-bold text-gray-900">Select your favorite Sports:</p>
                   <div className="flex flex-wrap gap-2">
-                    {sports.map((sport: Sports) => (
-                      <button
-                        key={sport.id}
-                        className={userPreferences.sports.includes(sport.id) ? "bg-blue-500 text-white" : ""}
-                        onClick={() => changeSport(sport.id)}
-                      >
-                        {sport.name}
-                      </button>
-                    ))}
+                  {sports && sports.map((sport: Sports) => (
+                  <button
+                    key={sport.id}
+                    className={`px-3 py-2 rounded-md ${userPreferences && userPreferences.sports.includes(sport.id) ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
+                    onClick={() => changeSport(sport.id)}
+                  >
+                    {sport.name}
+                  </button>
+                ))}
+
                   </div>
                 </div>
                 <div>
-                  <p className="font-medium">Select your favorite teams:</p>
+                  <p className="font-medium text-lg font-bold text-gray-900">Select your favorite teams:</p>
                   <div className="flex flex-wrap gap-2">
-                    {teams.map((team: Teams) => (
+                    {teams && teams.map((team: Teams) => (
                       <button
                         key={team.id}
-                        className={userPreferences.teams.includes(team.id) ? "bg-blue-500 text-white" : ""}
+                        className={`px-3 py-2 rounded-md ${userPreferences && userPreferences.teams.includes(team.id) ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
                         onClick={() => changeTeam(team.id)}
                       >
                         {team.name}
@@ -198,13 +192,14 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose }) => {
                     ))}
                   </div>
                 </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
-    </>
-  );
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
+      </>
+    );
 };
 
 export default Preferences;
+

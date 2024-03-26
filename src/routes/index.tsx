@@ -11,11 +11,9 @@ import Preferences from '../pages/home/prefrences';
 const router = createBrowserRouter([
     {
         path: '/',
-        element:( <ProtectedRoute>
-            <div>
+        element:( 
+            
             <AccountLayout/>
-            </div>
-        </ProtectedRoute>
         ),
 },
 
@@ -34,6 +32,7 @@ const router = createBrowserRouter([
   },
   {
     path: 'article',
+    element: <ArticleComponent/>,
     children: [
       {
         index: true,

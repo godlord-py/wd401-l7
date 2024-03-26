@@ -42,7 +42,7 @@ const NavBar = () => {
   return (
     <div className="rs-theme-dark">
       <Navbar>
-        <Navbar.Brand href="#" aria-label="Sports News App">SportsNewsApp</Navbar.Brand>
+        <Navbar.Brand  aria-label="Sports News App">SportsNewsApp</Navbar.Brand>
         <Nav>
           <Nav.Item icon={<HomeIcon />} aria-label="Home">Home</Nav.Item>
           <Nav.Item aria-label="News" onClick={() => navigate('/article')}>Articles</Nav.Item>
@@ -61,9 +61,8 @@ const NavBar = () => {
           </Nav.Menu>
         </Nav>
       </Navbar>
-
       {/* Conditionally render Preferences only when showPreferences is true */}
-      {showPreferences && <Preferences show={showPreferences} onClose={handleClosePreferences} />}
+      {showPreferences && <Preferences show={showPreferences} onClose={handleClosePreferences} authToken={localStorage.getItem("authToken")} />}
     </div>
   );
 };
