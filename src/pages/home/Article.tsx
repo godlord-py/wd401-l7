@@ -77,7 +77,8 @@ const LiveArticles = () => {
       const filteredArticles = articles.filter((article: Articles) => {
         const isSportMatch = selectedSport === "All" || article.sport.name === selectedSport;
         const isTeamMatch = selectedTeam === "All" || (article.teams && article.teams.some((team: Teams) => team.name === selectedTeam));
-        const isUserPreferenceMatch = userPreferences.sports.length === 0 || userPreferences.sports.includes(article.sport.id);
+        const isUserPreferenceMatch = userPreferences && userPreferences.sports && userPreferences.sports.length === 0 || userPreferences.sports.includes(article.sport.id);
+
         return isSportMatch && isTeamMatch && isUserPreferenceMatch;      
       });
       setFilteredArticles(filteredArticles);
@@ -94,7 +95,7 @@ const LiveArticles = () => {
   };
   useEffect(() => {
     // Set the selectedSport based on user preferences when they change
-    if (userPreferences.sports.length > 0) {
+    if (userPreferences && userPreferences.sports && userPreferences.sports.length > 0) {
       const selectedSportId = userPreferences.sports[0];
       const selectedSport = sports.find((sport: Sports) => sport.id === selectedSportId);
       if (selectedSport) {
@@ -126,15 +127,16 @@ const LiveArticles = () => {
   }}
 >
   <option value="All">All Sports</option>
-  {userPreferences.sports.length === 0 && (
-    sports.map((sport: Sports) => (
-      <option key={sport.id} value={sport.name}>
-        {sport.name}
-      </option>
-    ))
-  )}
+  {(!userPreferences || !userPreferences.sports || userPreferences.sports.length === 0) && (
+  sports.map((sport: Sports) => (
+    <option key={sport.id} value={sport.name}>
+      {sport.name}
+    </option>
+  ))
+)}
 
-  {userPreferences.sports.length > 0 && (
+
+{userPreferences && userPreferences.sports && userPreferences.sports.length > 0 && (
     userPreferences.sports.map((sportId: number) => {
       const sport = sports.find((s: Sports) => s.id === sportId);
       return (

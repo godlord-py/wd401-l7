@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './signin.css'
 const SigninForm: React.FC = () => {
   const navigate = useNavigate();
@@ -32,9 +34,9 @@ const SigninForm: React.FC = () => {
       navigate("/");
     } catch (error) {
       console.log("Sign in failed:", error);
+      toast.error("Incorrect email or password");
     }
   };
-  
   return (
     <div className="full-page-background">
     <form
@@ -86,6 +88,7 @@ const SigninForm: React.FC = () => {
           required
           className="mt-1 p-2 w-full border rounded-md "
           placeholder="Enter Password"
+      
         />
       </div>
       <button
@@ -93,6 +96,13 @@ const SigninForm: React.FC = () => {
         className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600"
       >
         Sign In
+      </button>
+      <button
+        type="button"
+        className="bg-green-500 mt-4 text-white p-2 rounded-md w-full hover:bg-green-600"
+        onClick={() => navigate("/")}
+      >
+        Contune As Guest
       </button>
       <p className="mt-4 text-center text-white">
         Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>

@@ -6,6 +6,8 @@ import { MatchProvider } from './context/members/context'
 import { ArticleProvider } from './context/articles/context'
 import { SportProvider } from './context/sports/context'
 import { TeamProvider } from './context/teams/context'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <div>
@@ -14,6 +16,7 @@ function App() {
           <SportProvider>
             <TeamProvider>
           <RouterProvider router={router} />
+          <ToastContainer/>
           </TeamProvider>
           </SportProvider>
         </ArticleProvider>

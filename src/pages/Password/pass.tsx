@@ -3,16 +3,25 @@ import { API_ENDPOINT } from '../../config/constants';
 import { useNavigate } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 
-const Pass: React.FC = () => {
+interface PassProps {
+  onClose: () => void; 
+}
+
+const Pass: React.FC<PassProps> = ({ onClose }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(true);
   const token = localStorage.getItem('authToken');
   const [currentPass, setcurrentPass] = useState('');
   const [newPass, setNewPass] = useState('');
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      if (newPass.length < 8) {
+        setError('New password must be at least 8 characters long');
+        return;
+      }
       const response = await fetch(`${API_ENDPOINT}/user/password`, {
         method: 'PATCH',
         headers: {
@@ -31,19 +40,18 @@ const Pass: React.FC = () => {
       setNewPass('');
       navigate('/signin');
     } catch (error) {
+      setError(error.message);
       console.log('Password change failed:', error);
     }
   };
-
-  function closeModal() {
+  const handleClose = () => {
     setIsOpen(false);
-    navigate('../../');
-  }
-
+    onClose(); 
+  };
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={closeModal}>
+        <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={handleClose}>
           <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -125,6 +133,14 @@ const Pass: React.FC = () => {
                     </button>
                   </div>
                 </form>
+                {error && (
+              <div className="mt-4">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                  <strong className="font-bold">Error:</strong>
+                  <span className="block sm:inline">{error}</span>
+                </div>
+              </div>
+            )}
               </div>
             </Transition.Child>
           </div>

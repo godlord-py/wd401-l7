@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { API_ENDPOINT } from "../../config/constants";
 import './signup.css'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const SignupForm: React.FC = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -11,6 +13,12 @@ const SignupForm: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    if (password.length < 8) {
+      toast.error("Password must be at least 8 characters long");
+      return;
+    }
+    
     try {
       const response = await fetch(`${API_ENDPOINT}/users`, {
         method: 'POST',
@@ -116,6 +124,13 @@ const SignupForm: React.FC = () => {
         className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600"
       >
         Sign Up
+      </button>
+      <button
+        type="button"
+        className="bg-green-500 mt-4 text-white p-2 rounded-md w-full hover:bg-green-600"
+        onClick={() => navigate("/")}
+      >
+        Contune As Guest
       </button>
       <p className="mt-4 text-center text-white">
       Already Have An Account? <Link to="/signin" className="text-blue-500">Login</Link>
