@@ -28,8 +28,8 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose, authToken }) =
   const teamDispatch = useTeamDispatch();
   const sportState = useSportState();
   const teamState = useTeamState();
-  const { sports, isError: sportError} = sportState;
-  const { teams, isError: teamError } = teamState;
+  const { sports, isError: sportError, errMsg: sportErrorMessage } = sportState;
+  const { teams, isError: teamError, errMsg: teamErrorMessage } = teamState;
 // Fetch user preferences using the hook
 const userpref = useUserPreferences(authToken);
 
@@ -154,10 +154,14 @@ useEffect(() => {
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-semibold">Preferences:</h3>
                     <button
-                      className="text-gray-900 hover:text-gray-400"
+                      className="text-gray-900 hover:text-gray-400 relative"
                       onClick={patchPreferences}
                     >
-                      <BookmarkIcon className="w-6 h-6" />
+                      <BookmarkIcon className="w-6 h-6 text-gray-900" />
+                      <span className="absolute inset-0 flex items-center justify-center">
+                        <BookmarkIcon className="w-6 h-6 text-red-500 animate-ping absolute" />
+                        <BookmarkIcon className="w-6 h-6 text-red-500 animate-pulse absolute" />
+                      </span>
                     </button>
                   </div>
                   <p className="text-sm text-gray-500 mb-4">

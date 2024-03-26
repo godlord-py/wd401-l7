@@ -18,7 +18,6 @@ const SignupForm: React.FC = () => {
       toast.error("Password must be at least 8 characters long");
       return;
     }
-    
     try {
       const response = await fetch(`${API_ENDPOINT}/users`, {
         method: 'POST',
@@ -130,7 +129,7 @@ const SignupForm: React.FC = () => {
         className="bg-green-500 mt-4 text-white p-2 rounded-md w-full hover:bg-green-600"
         onClick={() => navigate("/")}
       >
-        Contune As Guest
+        Continue As Guest
       </button>
       <p className="mt-4 text-center text-white">
       Already Have An Account? <Link to="/signin" className="text-blue-500">Login</Link>

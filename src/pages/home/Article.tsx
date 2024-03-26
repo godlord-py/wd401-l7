@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useArticleDispatch, useArticleState } from "../../context/articles/context";
 import { searchArticle } from "../../context/articles/actions";
 import { useSportDispatch, useSportState } from "../../context/sports/context";
@@ -9,6 +9,7 @@ import { Articles, Sports, Teams, UserPreferences } from "../../types"; // Assum
 import ArticleModal from "./ArticleModel"; 
 import { API_ENDPOINT } from "../../config/constants";
 import useUserPreferences from "./userpref";
+import React from "react";
 
 const LiveArticles = () => {
   const dispatch = useArticleDispatch();
@@ -38,54 +39,75 @@ const LiveArticles = () => {
       } catch (articleError) {
         console.error('Error fetching articles:', articleError);
       }
-
+  
       try {
         await searchSport(sportDispatch);
       } catch (sportError) {
         console.error('Error fetching sports:', sportError);
       }
-
+  
       try {
         await searchTeam(TeamDispatch);
       } catch (teamError) {
         console.error('Error fetching teams:', teamError);
       }
-
-      try {
-        const token = localStorage.getItem("authToken");
-        const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
-          method: 'GET',
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+  
+      // Check if the user is authenticated before fetching user preferences
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        try {
+          const res = await fetch(`${API_ENDPOINT}/user/preferences`, {
+            method: 'GET',
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          const data = await res.json();
+          setUserPreferences(data.preferences);
+        } catch (error) {
+          console.error('Error fetching user preferences:', error);
+        }
+      } else {
+        // If the user is not authenticated, set userPreferences to an empty object
+        setUserPreferences({
+          sports: [],
+          teams: [],
         });
-        const data = await res.json();
-        setUserPreferences(data.preferences);
-      } catch (error) {
-        console.error('Error fetching user preferences:', error);
       }
     };
-
+  
     fetchData();
   }, [dispatch, sportDispatch, TeamDispatch]);
 
   useEffect(() => {
     // Function to fetch and filter articles
     const fetchAndFilterArticles = async () => {
-      // Filter articles by user preferences
-      const filteredArticles = articles.filter((article: Articles) => {
-        const isSportMatch = selectedSport === "All" || article.sport.name === selectedSport;
-        const isTeamMatch = selectedTeam === "All" || (article.teams && article.teams.some((team: Teams) => team.name === selectedTeam));
-        const isUserPreferenceMatch = userPreferences && userPreferences.sports && userPreferences.sports.length === 0 || userPreferences.sports.includes(article.sport.id);
+      // Ensure articles and userPreferences are defined before filtering
+      if (articles && userPreferences) {
+        // Filter articles by user preferences
+        const filteredArticles = articles.filter((article: Articles) => {
+          const isSportMatch = selectedSport === "All" || article.sport.name === selectedSport;
+          const isTeamMatch = selectedTeam === "All" || (article.teams && article.teams.some((team: Teams) => team.name === selectedTeam));
+          const isUserPreferenceMatch = 
+            userPreferences.sports && 
+            (userPreferences.sports.length === 0 || userPreferences.sports.includes(article.sport.id));
 
-        return isSportMatch && isTeamMatch && isUserPreferenceMatch;      
-      });
-      setFilteredArticles(filteredArticles);
+          return isSportMatch && isTeamMatch && isUserPreferenceMatch;      
+        });
+        setFilteredArticles(filteredArticles);
+      }
     };
-    fetchAndFilterArticles();
+    if (articles && userPreferences) {
+      fetchAndFilterArticles();
+    }
   }, [articles, selectedSport, selectedTeam, userPreferences]);
 
+
+  if (filteredArticles === null) {
+    return <div>No articles found.</div>;
+  }
+  
   const handleOpenArticleModal = (article: Articles) => {
     setSelectedArticle(article);
   };
@@ -118,7 +140,7 @@ const LiveArticles = () => {
   onChange={(event) => {
     setSelectedSport(event.target.value);
     // Automatically select the sport in user preferences if available
-    if (userPreferences.sports.length > 0) {
+    if (userPreferences && userPreferences.sports && userPreferences.sports.length > 0) {
       const selectedSportId = sports.find((sport: Sports) => sport.name === event.target.value)?.id;
       if (selectedSportId && userPreferences.sports.includes(selectedSportId)) {
         setSelectedSport(event.target.value);

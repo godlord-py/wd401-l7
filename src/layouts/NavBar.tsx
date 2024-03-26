@@ -26,6 +26,7 @@ const NavBar = () => {
   const handleCloseResetPassword = () => {
     setShowResetPassword(false); // Close the password reset pop-up
   };
+
   useEffect(() => {
     const userDataString = localStorage.getItem("userData");
     if (userDataString) {

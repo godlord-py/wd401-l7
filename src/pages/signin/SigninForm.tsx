@@ -102,7 +102,7 @@ const SigninForm: React.FC = () => {
         className="bg-green-500 mt-4 text-white p-2 rounded-md w-full hover:bg-green-600"
         onClick={() => navigate("/")}
       >
-        Contune As Guest
+        Continue As Guest
       </button>
       <p className="mt-4 text-center text-white">
         Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>

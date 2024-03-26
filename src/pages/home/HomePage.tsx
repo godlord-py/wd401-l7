@@ -3,6 +3,7 @@ import { RefreshIcon, CalendarIcon, MapIcon } from '@heroicons/react/solid';
 import { searchMatch } from '../../context/members/actions.ts';
 import { useMatchDispatch, useMatchState } from '../../context/members/context.tsx';
 import { API_ENDPOINT } from '../../config/constants.ts';
+import { motion } from 'framer-motion';
 
 const HomePage = () => {
   const dispatch = useMatchDispatch();
@@ -52,17 +53,31 @@ const HomePage = () => {
       {loadingData && (
         <div className="flex flex-wrap">
           {[...Array(3)].map((_, index) => (
-            <div key={index} className="flex-shrink-0 bg-gray-300 p-4 rounded-md mr-4 mb-4" style={{ minWidth: '360px', minHeight: '150px' }}>
+            <motion.div
+              key={index}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              className="flex-shrink-0 bg-gray-300 p-4 rounded-md mr-4 mb-4"
+              style={{ minWidth: '360px', minHeight: '150px' }}
+            >
               <div className="w-50 h-10 bg-gray-200 rounded-lg"></div>
               <div className="flex-1"></div>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
       {!loadingData && (
         <div className="flex overflow-x-auto gap-4 pb-2 rounded-l-md px-4">
           {matchesWithScores.map((match) => (
-            <div key={match.id} className="flex-shrink-0 bg-gradient-to-r from-gray-700 to-gray-500 p-4 rounded-md text-white border dark:border-white" style={{ minWidth: '260px' }}>
+            <motion.div
+              key={match.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex-shrink-0 bg-gradient-to-r from-gray-700 to-gray-500 p-4 rounded-md text-white border dark:border-white"
+              style={{ minWidth: '260px' }}
+            >
               <div className="flex mr-2 justify-between items-center mb-4">
                 <p className="text-lg">{match.teams[0].name} VS {match.teams[1].name}</p>
                 {match.isRunning ? (
@@ -87,7 +102,7 @@ const HomePage = () => {
                 <p>{match.location}</p>
                 <RefreshIcon onClick={handleRefresh} className="w-6 h-6 ml-40" />
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}
