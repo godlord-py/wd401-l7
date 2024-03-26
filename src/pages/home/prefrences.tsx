@@ -86,7 +86,6 @@ useEffect(() => {
         ? prevPreferences.teams.filter((selectedTeam) => selectedTeam !== teamId)
         : [...(prevPreferences.teams ?? []), teamId],
     }));
-    closeModal(); 
   };
 
   useEffect(() => {

@@ -4,8 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Transition, Dialog } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/solid";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion"; // Import motion from framer-motion
 import { API_ENDPOINT } from "../../config/constants";
-//dark mode is not working
+
 const ArticleModal = ({ article, onClose }: { article: Articles | null; onClose: () => void; }) => {
     const [isOpen, setIsOpen] = useState(false);
     const navigate = useNavigate();
@@ -36,7 +37,13 @@ const ArticleModal = ({ article, onClose }: { article: Articles | null; onClose:
     };
 
     return (
-        <>
+                    <>
+                    <motion.div 
+                initial={{ opacity: 0, scale: 0.95, filter: "blur(8px)" }} 
+                animate={{ opacity: 1, scale: 1, filter: "blur(70px)" }} 
+                exit={{ opacity: 0, scale: 0.95, filter: "blur(100px)" }} 
+                className="flex min-h-full items-center justify-center"
+            >
             <Transition appear show={isOpen} as={Fragment}>
                 <Dialog as="div" className="fixed inset-0 z-10 overflow-y-auto" onClose={closeModal}>
                     <Transition.Child
@@ -60,8 +67,8 @@ const ArticleModal = ({ article, onClose }: { article: Articles | null; onClose:
                         leaveFrom="opacity-100 scale-100"
                         leaveTo="opacity-0 scale-95"
                     >
-                        <div className="flex min-h-full items-center justify-center">
-                            <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-lg bg-gray-200 text-gray-800 p-6 text-left align-middle shadow-xl transition-all">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="flex min-h-full items-center justify-center">
+                            <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-lg bg-gray-200 text-gray-800 p-6 text-left align-middle shadow-xl transition-all">
                                 {articleDetails && (
                                     <>
                                         <Dialog.Title as="h3" className="text-2xl font-bold text-red-900 leading-6 mb-10">
@@ -87,13 +94,13 @@ const ArticleModal = ({ article, onClose }: { article: Articles | null; onClose:
                                     </>
                                 )}
                             </Dialog.Panel>
-                        </div>
+                        </motion.div>
                     </Transition.Child>
                 </Dialog>
             </Transition>
+            </motion.div>
         </>
     );
-    
 }
 
 export default ArticleModal;

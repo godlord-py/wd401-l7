@@ -45,7 +45,7 @@ const HomePage = () => {
   return (
     <div className="scroll-bar">
       <div className="flex justify-between items-center mb-4 px-4">
-        <h2 className="font-bold text-3xl text-black dark:text-white">Live Sports</h2>
+        <h2 className="font-bold text-3xl text-black dark:text-white">Live Sports:</h2>
         <button onClick={handleRefresh} className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
           <RefreshIcon className="w-6 h-6" />
         </button>
@@ -77,6 +77,7 @@ const HomePage = () => {
               transition={{ duration: 0.5 }}
               className="flex-shrink-0 bg-gradient-to-r from-gray-700 to-gray-500 p-4 rounded-md text-white border dark:border-white"
               style={{ minWidth: '260px' }}
+              whileHover={{ scale: 1.01,  }}
             >
               <div className="flex mr-2 justify-between items-center mb-4">
                 <p className="text-lg">{match.teams[0].name} VS {match.teams[1].name}</p>

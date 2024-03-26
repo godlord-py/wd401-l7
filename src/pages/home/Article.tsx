@@ -8,7 +8,7 @@ import { searchTeam } from "../../context/teams/actions";
 import { Articles, Sports, Teams, UserPreferences } from "../../types"; // Assuming you have types defined in a file named types.ts
 import ArticleModal from "./ArticleModel"; 
 import { API_ENDPOINT } from "../../config/constants";
-import useUserPreferences from "./userpref";
+import { motion } from "framer-motion";
 import React from "react";
 
 const LiveArticles = () => {
@@ -193,10 +193,11 @@ const LiveArticles = () => {
 </div>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 hover:-translate-y-1 hover:scale-105 cursor-pointer">
   {filteredArticles.map((article: Articles) => (
-    <div
+    <motion.div
       key={article.id}
       className="flex flex-col rounded-lg bg-white border border-gray-200 shadow-md transition-all hover:bg-blue-200 duration-1000 hover:shadow-lg hover:-translate-y-1 hover:scale-105 cursor-pointer"
       onClick={() => handleOpenArticleModal(article)}
+      whileHover={{ scale: 1.05 }}
     >
       <img
         className="w-full rounded-t-lg object-cover h-48"
@@ -217,7 +218,7 @@ const LiveArticles = () => {
           {new Date(article.date).toDateString()}
         </p>
       </div>
-    </div>
+    </motion.div>
   ))}
 </div>
 {selectedArticle && (

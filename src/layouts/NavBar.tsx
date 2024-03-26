@@ -1,10 +1,14 @@
 import { Navbar, Nav } from 'rsuite';
-import HomeIcon from '@rsuite/icons/legacy/Home';
+import AdminIcon from '@rsuite/icons/Admin';
+import OffIcon from '@rsuite/icons/Off';
+import FunnelIcon from '@rsuite/icons/Funnel';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Preferences from '../pages/home/prefrences';
 import { User } from '../types';
+import CharacterLockIcon from '@rsuite/icons/CharacterLock';
 import Pass from '../pages/Password/pass';
+
 
 const NavBar = () => {
   const navigate = useNavigate();
@@ -52,16 +56,15 @@ const NavBar = () => {
       <Navbar>
         <Navbar.Brand aria-label="Sports News App">SportsNewsApp</Navbar.Brand>
         <Nav>
-          <Nav.Item icon={<HomeIcon />} aria-label="Home">Home</Nav.Item>
           <Nav.Item aria-label="News" onClick={() => navigate('/article')}>Articles</Nav.Item>
         </Nav>
         <Nav pullRight>
           {user ? (
             <>
-              <Nav.Item>Welcome {user.name}</Nav.Item>
-              <Nav.Item onClick={handleResetPasswordClick} aria-label="Reset Password">Reset Password</Nav.Item>
-              <Nav.Item onClick={handlePreferencesClick} aria-label="Change Preferences">Change Preferences</Nav.Item>
-              <Nav.Item onClick={signout} aria-label="Signout">Signout</Nav.Item>
+              <Nav.Item icon={<AdminIcon/>}>Welcome {user.name}</Nav.Item>
+              <Nav.Item onClick={handleResetPasswordClick} icon={<CharacterLockIcon/>} aria-label="Reset Password">Reset Password</Nav.Item>
+              <Nav.Item onClick={handlePreferencesClick} icon={<FunnelIcon/>} aria-label="Change Preferences">Change Preferences</Nav.Item>
+              <Nav.Item onClick={signout} icon={<OffIcon/>} aria-label="Signout">Signout</Nav.Item>
             </>
           ) : (
             <>
