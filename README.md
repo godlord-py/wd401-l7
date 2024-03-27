@@ -34,11 +34,11 @@ Currently, two official plugins are available:
 
 ## Live App
 
-Check out the live application [here](https://sportnews301.netlify.app/).
+Check out the live application [here](https://sportsnews301.netlify.app/).
 
 ## Demo Video
 
-Watch the demo video [here](not done).
+Watch the demo video [here](https://www.loom.com/share/74f4771a65a341f6a2085c2e9ba9e354).
 
 ## Installation
 
