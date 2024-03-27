@@ -3,8 +3,7 @@ import { Articles, ArticleDetails } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { Transition, Dialog } from "@headlessui/react";
 import { CalendarIcon } from "@heroicons/react/solid";
-import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+import { motion } from "framer-motion";
 import { API_ENDPOINT } from "../../config/constants";
 
 const ArticleModal = ({ article, onClose }: { article: Articles | null; onClose: () => void; }) => {

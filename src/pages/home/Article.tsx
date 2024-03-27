@@ -192,40 +192,44 @@ const LiveArticles = () => {
 
 </div>
 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 hover:-translate-y-1 hover:scale-105 cursor-pointer">
-  {filteredArticles.map((article: Articles) => (
-    <motion.div
-      key={article.id}
-      className="flex flex-col rounded-lg bg-white border border-gray-200 shadow-md transition-all hover:bg-blue-200 duration-1000 hover:shadow-lg hover:-translate-y-1 hover:scale-105 cursor-pointer"
-      onClick={() => handleOpenArticleModal(article)}
-      whileHover={{ scale: 1.05 }}
-    >
-      <img
-        className="w-full rounded-t-lg object-cover h-48"
-        src={article.thumbnail}
-        alt="thumbnail"
-      />
-      <div className="p-6">
-        <p className="text-xs text-neutral-500">
-          {article.sport.name}
-        </p>
-        <h5 className="mt-2 text-xl font-semibold text-neutral-800">
-          {article.title}
-        </h5>
-        <p className="mb-4 text-sm text-neutral-600">
-          {article.summary}
-        </p>
-        <p className="text-xs text-neutral-500">
-          {new Date(article.date).toDateString()}
-        </p>
-      </div>
-    </motion.div>
-  ))}
+  {filteredArticles.length === 0 ? (
+    <div className="text-3xl w-full text-gray-500 ml-80 mt-20">Select User Preference to get started!</div>
+  ) : (
+    filteredArticles.map((article: Articles) => (
+      <motion.div
+        key={article.id}
+        className="flex flex-col rounded-lg bg-white border border-gray-200 shadow-md transition-all hover:bg-blue-200 duration-1000 hover:shadow-lg hover:-translate-y-1 hover:scale-105 cursor-pointer"
+        onClick={() => handleOpenArticleModal(article)}
+        whileHover={{ scale: 1.05 }}
+      >
+        <img
+          className="w-full rounded-t-lg object-cover h-48"
+          src={article.thumbnail}
+          alt="thumbnail"
+        />
+        <div className="p-6">
+          <p className="text-xs text-neutral-500">
+            {article.sport.name}
+          </p>
+          <h5 className="mt-2 text-xl font-semibold text-neutral-800">
+            {article.title}
+          </h5>
+          <p className="mb-4 text-sm text-neutral-600">
+            {article.summary}
+          </p>
+          <p className="text-xs text-neutral-500">
+            {new Date(article.date).toDateString()}
+          </p>
+        </div>
+      </motion.div>
+    ))
+  )}
 </div>
 {selectedArticle && (
   <ArticleModal article={selectedArticle} onClose={handleCloseArticleModal} />
 )}
+
 </div>
-);
-};
+)};
 
 export default LiveArticles;

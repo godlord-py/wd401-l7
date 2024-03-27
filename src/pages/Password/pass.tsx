@@ -30,7 +30,6 @@ const Pass: React.FC<PassProps> = ({ onClose }) => {
         },
         body: JSON.stringify({ current_password: currentPass, new_password: newPass }),
       });
-
       if (!response.ok) {
         throw new Error('Something went wrong while changing your password');
       }

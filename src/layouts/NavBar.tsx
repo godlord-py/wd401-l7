@@ -24,11 +24,11 @@ const NavBar = () => {
     setShowPreferences(false);
   };
   const handleResetPasswordClick = () => {
-    setShowResetPassword(true); // Show the password reset pop-up
+    setShowResetPassword(true); 
   };
 
   const handleCloseResetPassword = () => {
-    setShowResetPassword(false); // Close the password reset pop-up
+    setShowResetPassword(false); 
   };
 
   useEffect(() => {
@@ -45,10 +45,6 @@ const NavBar = () => {
     console.log("User data: ", localStorage.getItem("userData"));
     console.log("Auth token: ", localStorage.getItem("authToken"));
     navigate('/signin');
-  };
-
-  const resetPassword = () => {
-    navigate('/reset-password');
   };
 
   return (
