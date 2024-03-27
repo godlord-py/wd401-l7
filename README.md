@@ -34,7 +34,7 @@ Currently, two official plugins are available:
 
 ## Live App
 
-Check out the live application [here](not done).
+Check out the live application [here](https://sportnews301.netlify.app/).
 
 ## Demo Video
 
