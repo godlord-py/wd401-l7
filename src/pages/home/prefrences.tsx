@@ -70,23 +70,30 @@ useEffect(() => {
   const changeSport = (sportId: number) => {
     setUserPreferences((prevPreferences) => {
       const sportsArray = prevPreferences.sports || []; 
+      // Filter teams based on the selected sport
+      const filteredTeams = teams.filter((team) => team.plays === sports.find(sport => sport.id === sportId)?.name);
       return {
         ...prevPreferences,
         sports: sportsArray.includes(sportId)
           ? sportsArray.filter((selectedSport) => selectedSport !== sportId)
           : [...sportsArray, sportId],
+        teams: filteredTeams.map(team => team.id), // Update teams based on filtered teams
       };
     });
   };
-
+  
   const changeTeam = (teamId: number) => {
-    setUserPreferences((prevPreferences) => ({
-      ...prevPreferences,
-      teams: Array.isArray(prevPreferences.teams) && prevPreferences.teams.includes(teamId)
-        ? prevPreferences.teams.filter((selectedTeam) => selectedTeam !== teamId)
-        : [...(prevPreferences.teams ?? []), teamId],
-    }));
+    setUserPreferences((prevPreferences) => {
+      const teamsArray = prevPreferences.teams || []; 
+      return {
+        ...prevPreferences,
+        teams: teamsArray.includes(teamId)
+          ? teamsArray.filter((selectedTeam) => selectedTeam !== teamId)
+          : [...teamsArray, teamId],
+      };
+    });
   };
+  
 
   useEffect(() => {
     searchArticle(dispatch);
@@ -182,19 +189,28 @@ useEffect(() => {
                   </div>
                 </div>
                 <div>
-                  <p className="font-medium text-lg font-bold text-gray-900">Select your favorite teams:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {teams && teams.map((team: Teams) => (
-                      <button
-                        key={team.id}
-                        className={`px-3 py-2 rounded-md ${userPreferences && userPreferences.teams.includes(team.id) ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
-                        onClick={() => changeTeam(team.id)}
-                      >
-                        {team.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+            <p className="font-medium text-lg font-bold text-gray-900">Select your favorite teams:</p>
+            <div className="flex flex-wrap gap-2">
+            {teams && teams
+              .filter(team => {
+                // Check if any sport in userPreferences has a name matching the team's plays property
+                return userPreferences.sports.some(sportId => {
+                  const sport = sports.find(sport => sport.id === sportId);
+                  return sport?.name === team.plays;
+                });
+              })
+              .map((team: Teams) => (
+                <button
+                  key={team.id}
+                  className={`px-3 py-2 rounded-md ${userPreferences && userPreferences.teams.includes(team.id) ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-800"}`}
+                  onClick={() => changeTeam(team.id)}
+                >
+                  {team.name}
+                </button>
+              ))}
+          </div>
+        </div>
+
                 </div>
               </Transition.Child>
             </div>

@@ -171,7 +171,6 @@ const LiveArticles = () => {
 </select>
 
 
-
 <label className="text-md font-semibold ml-8 mr-2">Filter by Teams:</label>
 <select
   className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
@@ -180,13 +179,22 @@ const LiveArticles = () => {
 >
   <option value="All">All Teams</option>
   {teams
-    .filter((team: Teams) => selectedSport === "All" || team.plays === selectedSport)
+    .filter((team: Teams) => {
+      const playsSelectedSport = selectedSport === "All" || team.plays === selectedSport;
+      const hasUserPreferences = userPreferences && userPreferences.teams && userPreferences.teams.length > 0;
+      // If no user preferences are selected, show all teams
+      if (!hasUserPreferences) return playsSelectedSport;
+      // Check if the team is included in user preferences
+      const isInUserPreferences = userPreferences.teams.includes(team.id);
+      return playsSelectedSport && isInUserPreferences;
+    })
     .map((team: Teams) => (
       <option key={team.id} value={team.name}>
         {team.name}
       </option>
     ))}
 </select>
+
 
 
 
