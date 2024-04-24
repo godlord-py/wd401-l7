@@ -72,7 +72,7 @@ const LiveArticles = () => {
         // If the user is not authenticated, set userPreferences to an empty object
         setUserPreferences({
           sports: [],
-          teams: [],
+          teams: [], //test
         });
       }
     };
