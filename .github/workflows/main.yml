@@ -23,10 +23,15 @@ jobs:
           curl -fsSL https://get.docker.com -o get-docker.sh
           sh get-docker.sh
 
-      # Build Docker image
-      - name: Build Docker image
+      # Build Docker image for the frontend
+      - name: Build frontend Docker image
         run: |
-          docker build -t your-docker-image-tag .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-frontend:latest -f Dockerfile.frontend .
+
+      # Build Docker image for the backend
+      - name: Build backend Docker image
+        run: |
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest -f Dockerfile .
 
       # Authenticate with Docker Hub or another registry if needed
       - name: Docker login
@@ -35,9 +40,12 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Push Docker image to Docker Hub or another registry
-      - name: Push Docker image
+      # Push frontend Docker image to Docker Hub or another registry
+      - name: Push frontend Docker image
         run: |
-          docker tag your-docker-image-tag your-docker-registry/your-docker-image-tag:latest
-          docker push your-docker-registry/your-docker-image-tag:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-frontend:latest
 
+      # Push backend Docker image to Docker Hub or another registry
+      - name: Push backend Docker image
+        run: |
+          docker push ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest
