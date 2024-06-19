@@ -17,11 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Install Docker
+      # Install Docker using Docker's convenience script
       - name: Install Docker
         run: |
-          sudo apt-get update
-          sudo apt-get install docker.io
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
 
       # Build Docker image
       - name: Build Docker image
@@ -41,4 +41,3 @@ jobs:
           docker tag your-docker-image-tag your-docker-registry/your-docker-image-tag:latest
           docker push your-docker-registry/your-docker-image-tag:latest
 
-   
