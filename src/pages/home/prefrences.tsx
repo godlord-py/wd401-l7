@@ -174,7 +174,7 @@ useEffect(() => {
                     Select your favorite sports and teams for a tailored feed.
                   </p>
                   <div className="mb-4">
-                  <p className="font-medium text-lg font-bold text-gray-900">Select your favorite Sports:</p>
+                  <p className="font-medium text-lg text-gray-900">Select your favorite Sports:</p>
                   <div className="flex flex-wrap gap-2">
                   {sports && sports.map((sport: Sports) => (
                   <button
@@ -189,7 +189,7 @@ useEffect(() => {
                   </div>
                 </div>
                 <div>
-            <p className="font-medium text-lg font-bold text-gray-900">Select your favorite teams:</p>
+            <p className="font-medium text-lg  text-gray-900">Select your favorite teams:</p>
             <div className="flex flex-wrap gap-2">
             {teams && teams
               .filter(team => {

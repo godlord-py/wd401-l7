@@ -4,7 +4,8 @@ import { API_ENDPOINT } from "../../config/constants";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from "framer-motion";
-import '/home/godlord/capstone301/sportnewsapp/src/pages/signin/signin.css';
+import './signin.css';
+
 const SigninForm: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
