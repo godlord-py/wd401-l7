@@ -31,7 +31,7 @@ jobs:
       # Build Docker image for the backend
       - name: Build backend Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest -f Dockerfile .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest -f  backend/Dockerfile .
 
       # Authenticate with Docker Hub or another registry if needed
       - name: Docker login
