@@ -1,16 +1,16 @@
-version: '3.8'
+version: '3.8'  # Specifies the version of the Docker Compose file format
 
-services:
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    ports:
-      - "80:80"
+services:  # Defines the services (containers) to be run
+  frontend:  # Name of the first service
+    build:  # Specifies build instructions for the frontend service
+      context: .  # The build context for the frontend, usually the root directory of the project
+      dockerfile: Dockerfile.frontend  # Specifies the Dockerfile to use for building the frontend image
+    ports:  # Maps ports on the host to ports on the container
+      - "80:80"  # Maps port 80 on the host to port 80 on the frontend container
 
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
+  backend:  # Name of the second service
+    build:  # Specifies build instructions for the backend service
+      context: ./backend  # The build context for the backend, usually the backend directory of the project
+      dockerfile: Dockerfile  # Specifies the Dockerfile to use for building the backend image
+    ports:  # Maps ports on the host to ports on the container
+      - "5000:5000"  # Maps port 5000 on the host to port 5000 on the backend container
