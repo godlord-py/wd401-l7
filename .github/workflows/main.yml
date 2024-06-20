@@ -68,10 +68,18 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest  
 
-      # Step 11: Notify on failure using Discord webhook
-      - name: Notify on failure
-        if: failure() 
+      # Step to notify on failure
+      - name: Notify on failure using Discord webhook
+        if: failure()
         env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}  # Use Discord webhook URL from secrets
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"content":"Error occurred in SPORTNEWSAPP pipeline: Latest Commit Pipeline, please fix the error as soon as possible."}' $DISCORD_WEBHOOK_URL  
+          curl -X POST -H 'Content-type: application/json' --data '{"content":"Error occurred in SPORTNEWSAPP pipeline: Latest Commit Pipeline, please fix the error as soon as possible."}' $DISCORD_WEBHOOK_URL
+
+      # Step to notify on success
+      - name: Notify on success using Discord webhook
+        if: success()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"content":"SPORTNEWSAPP pipeline completed successfully: No errors detected."}' $DISCORD_WEBHOOK_URL
