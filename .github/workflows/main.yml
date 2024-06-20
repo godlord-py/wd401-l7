@@ -17,11 +17,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      # Install Node.js (required for running tests)
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
       # Install Docker using Docker's convenience script
       - name: Install Docker
         run: |
           curl -fsSL https://get.docker.com -o get-docker.sh
           sh get-docker.sh
+
+      # Install frontend dependencies and run tests
+      - name: Install frontend dependencies and run tests
+        run: |
+          npm install
+          npm test
+
+      # Install backend dependencies and run tests
+      - name: Install backend dependencies and run tests
+        run: |
+          cd backend
+          npm install
+          npm test
 
       # Build Docker image for the frontend
       - name: Build frontend Docker image
@@ -31,7 +50,7 @@ jobs:
       # Build Docker image for the backend
       - name: Build backend Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest -f  backend/Dockerfile .
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest -f backend/Dockerfile .
 
       # Authenticate with Docker Hub or another registry if needed
       - name: Docker login
@@ -49,3 +68,11 @@ jobs:
       - name: Push backend Docker image
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest
+
+      # Notify on failure using Discord webhook
+      - name: Notify on failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"content":"Error occurred in SPORTNEWSAPP pipeline: $GITHUB_RUN_ID"}' $DISCORD_WEBHOOK_URL
