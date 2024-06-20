@@ -70,7 +70,7 @@ jobs:
 
       # Step 11: Notify on failure using Discord webhook
       - name: Notify on failure
-        if: failure()  # Only run this step if previous steps fail
+        if: failure() 
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}  # Use Discord webhook URL from secrets
         run: |
