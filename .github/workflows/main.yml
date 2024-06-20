@@ -27,8 +27,8 @@ jobs:
       # Step 3: Install Docker
       - name: Install Docker
         run: |
-          curl -fsSL https://get.docker.com -o get-docker.sh  # Download Docker installation script
-          sh get-docker.sh  # Run Docker installation script
+          curl -fsSL https://get.docker.com -o get-docker.sh  
+          sh get-docker.sh  
 
       # Step 4: Install frontend dependencies
       - name: Install frontend dependencies
