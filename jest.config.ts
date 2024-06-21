@@ -1,10 +1,9 @@
 module.exports = {
+  testEnvironment: 'jsdom',
   transform: {
-    "^.+\\.(ts|tsx|js|jsx)$": "ts-jest"
+    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.jsx?$': 'babel-jest',
   },
-  moduleNameMapper: {
-    '^@/(.*)$': '/home/godlord/capstone301/sportnewsapp/src/$1',
-  },
-  setupFilesAfterEnv: ['/home/godlord/capstone301/sportnewsapp/jest.setup.ts'], // Adjust path as needed
-  // Other Jest configurations as needed
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)', '**/__tests__/**/*.js?(x)', '**/?(*.)+(spec|test).js?(x)'],
 };

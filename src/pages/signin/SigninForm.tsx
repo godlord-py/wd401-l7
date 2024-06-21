@@ -10,7 +10,7 @@ const SigninForm: React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const isMobile = window.innerWidth <= 900;
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -119,12 +119,12 @@ const SigninForm: React.FC = () => {
           Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>
         </p>
       </motion.form>
-      <div className="absolute top-60 right-40 p-8 text-white text-2xl font-bold">
+      {isMobile && <div className="absolute top-60 right-40 p-8 text-white text-2xl font-bold">
         <p>
           <span className="rgb" style={{ color: 'red' }}>Where passion</span> meets play, and every victory tells a story.<br /> Welcome to
           SportsNewsPage,<br /> your gateway to the heartbeat of the game.
         </p>
-      </div>
+      </div>}
     </div>
   );
 };

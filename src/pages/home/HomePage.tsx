@@ -46,7 +46,7 @@ const HomePage = () => {
     <div className="scroll-bar">
       <div className="flex justify-between items-center mb-4 px-4">
         <h2 className="font-bold text-3xl text-black dark:text-white">Live Sports:</h2>
-        <button onClick={handleRefresh} className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
+        <button onClick={handleRefresh}  id="refreshbutton" className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
           <RefreshIcon className="w-6 h-6" />
         </button>
       </div>
@@ -68,7 +68,7 @@ const HomePage = () => {
         </div>
       )}
       {!loadingData && (
-        <div className="flex overflow-x-auto gap-4 pb-2 rounded-l-md px-4">
+        <div id='match' className="flex overflow-x-auto gap-4 pb-2 rounded-l-md px-4">
           {matchesWithScores.map((match) => (
             <motion.div
               key={match.id}
