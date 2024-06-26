@@ -1,0 +1,26 @@
+{
+  "translation": {
+  "Articles": "Artículos",
+  "Reset Password": "Restablecer contraseña",
+  "Change Preferences": "Cambiar preferencias",
+  "Sign Out": "Cerrar sesión",
+  "Live Sports": "Deportes en Vivo",
+  "Sign In": "Iniciar sesión",
+  "Sign Up": "Registrarse",
+  "SportsNewsPage": "Bienvenido a SportsNewsPage",
+  "Sign in to your account": "Inicie sesión en su cuenta",
+  "Continue As Guest": "Continuar como invitado",
+  "Don't Have An Account?": "¿No tienes una cuenta?",
+  "Filter by sports" : "Filtrar por deportes",
+  "Filter by Teams": "Filtrar por equipos",
+  "All sports": "Todos los deportes",
+  "All Teams": "Todos los equipos",
+  "Sign up to your account": "Regístrese en su cuenta",
+  "Already Have An Account?": "¿Ya tienes una cuenta?",
+  "Login": "Acceso",
+  "SportsNewsApp": "DeportesNoticiasApp",
+  "Welcome": "Bienvenido",
+  "DateFormat": "MM/DD/YYYY",  
+  "TimeFormat": "hh:mm A"      
+  }
+}

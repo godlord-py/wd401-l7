@@ -9,13 +9,15 @@ import { Articles, Sports, Teams, UserPreferences } from "../../types"; // Assum
 import ArticleModal from "./ArticleModel"; 
 import { API_ENDPOINT } from "../../config/constants";
 import { motion } from "framer-motion";
-import React from "react";
+import { useTranslation } from "react-i18next";
+import { formatDate, formatTime } from '/home/godlord/capstone301/sportnewsapp/src/locale/Date.ts' 
 
 const LiveArticles = () => {
+  const {t} = useTranslation();
   const dispatch = useArticleDispatch();
   const state: any = useArticleState();
   const { articles, isLoading, isError, errMsg } = state;
-
+  const locale = navigator.language; 
   const sportDispatch = useSportDispatch();
   const TeamDispatch = useTeamDispatch();
   const sportState: any = useSportState();
@@ -128,12 +130,12 @@ const LiveArticles = () => {
       setSelectedSport("All");
     }
   }, [userPreferences, sports]);
-  
+ 
   return (
     <div>
-      <p className="font-bold text-3xl text-black dark:text-white mb-4">Articles:</p>
+      <p className="font-bold text-3xl text-black dark:text-white mb-4">{t('Articles')}:</p>
 <div className="flex items-center justify-center mb-4">
-<label className="text-md font-semibold mr-2">Filter by sports:</label>
+<label className="text-md font-semibold mr-2"> {t('Filter by sports')}</label>
 <select
   className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
   value={selectedSport} 
@@ -148,7 +150,7 @@ const LiveArticles = () => {
     }
   }}
 >
-  <option value="All">All Sports</option>
+  <option value="All"> {t('All sports')}</option>
   {(!userPreferences || !userPreferences.sports || userPreferences.sports.length === 0) && (
   sports.map((sport: Sports) => (
     <option key={sport.id} value={sport.name}>
@@ -171,13 +173,13 @@ const LiveArticles = () => {
 </select>
 
 
-<label className="text-md font-semibold ml-8 mr-2">Filter by Teams:</label>
+<label className="text-md font-semibold ml-8 mr-2">{t('Filter by Teams')}</label>
 <select
   className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
   value={selectedTeam}
   onChange={(event) => setSelectedTeam(event.target.value)}
 >
-  <option value="All">All Teams</option>
+  <option value="All">{t('All Teams')}</option>
   {teams
     .filter((team: Teams) => {
       const playsSelectedSport = selectedSport === "All" || team.plays === selectedSport;
@@ -217,17 +219,17 @@ const LiveArticles = () => {
         />
         <div className="p-6">
           <p className="text-xs text-neutral-500">
-            {article.sport.name}
+          {t(`${article.sport.name}`)}
           </p>
           <h5 className="mt-2 text-xl font-semibold text-neutral-800">
-            {article.title}
+          {t(`${article.title}`)}
           </h5>
           <p className="mb-4 text-sm text-neutral-600">
-            {article.summary}
+          {t(`${article.summary}`)}
           </p>
           <p className="text-xs text-neutral-500">
-            {new Date(article.date).toDateString()}
-          </p>
+              {formatDate(new Date(article.date))} {formatTime(new Date(article.date))}
+            </p>
         </div>
       </motion.div>
     ))

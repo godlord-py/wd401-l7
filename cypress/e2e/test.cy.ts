@@ -53,7 +53,7 @@ describe('Sportnewsapp', () => {
   //     // Verify that the sign-in page is displayed and the URL has changed
   //     cy.contains('Sign In', { timeout: 60000 }).should('be.visible'); // Wait up to 60 seconds for the Sign In text to appear
   //     cy.url().should('not.include', '/signup');
-  // });
+  // }); 
   
 });
   

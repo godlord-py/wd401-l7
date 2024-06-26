@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from "framer-motion";
 import "./signup.css"
+import { useTranslation } from "react-i18next";
+
 const SignupForm: React.FC = () => {
+  const {t} = useTranslation()
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -61,9 +64,9 @@ const SignupForm: React.FC = () => {
         className="anime max-w-md mt-32 p-8 border border-gray-300 rounded-lg bg-white bg-opacity-10 mx-10"
       >
         <h2 className="text-3xl font-semibold mb-4 text-center text-white">
-          Welcome To <span className="text-red-500">SportsNewsPage</span>
+          Welcome To <span className="text-red-500">{t('SportsNewsPage')}</span>
         </h2>
-        <p className="text-center p-2 text-white">Sign up to your account</p>
+        <p className="text-center p-2 text-white">{t('Sign up to your account')}</p>
         <motion.div
           className="mb-4 flex items-center"
           initial={{ opacity: 0, x: -20 }}
@@ -145,7 +148,7 @@ const SignupForm: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5 }}
         >
-          Sign Up
+          {t('Sign Up')}
         </motion.button>
         <motion.button
           type="button"
@@ -155,10 +158,10 @@ const SignupForm: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
         >
-          Continue As Guest
+          {t('Continue As Guest')}
         </motion.button>
         <p className="mt-4 text-center text-white">
-          Already Have An Account? <Link to="/signin" className="text-blue-500">Login</Link>
+          {t('Already Have An Account?')} <Link to="/signin" className="text-blue-500">{t('Login')}</Link>
         </p>
         {error && <p className="text-red-500 text-center mt-4">{error}</p>}
       </motion.form>

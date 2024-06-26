@@ -5,8 +5,10 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { motion } from "framer-motion";
 import './signin.css';
+import { useTranslation } from "react-i18next";
 
 const SigninForm: React.FC = () => {
+  const {t} = useTranslation()
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,16 +44,16 @@ const SigninForm: React.FC = () => {
   return (
     <div className="full-page-background">
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={handleSubmit}   
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
         className="anime max-w-md mt-32 p-8 border border-gray-300 rounded-lg bg-white bg-opacity-10 mx-10"
       >
         <h2 className="text-3xl font-semibold mb-4 text-center text-white">
-          Welcome To <span className="text-red-500">SportsNewsPage</span>
+          Welcome To <span className="text-red-500">{t('SportsNewsPage')}</span>
         </h2>
-        <p className="text-center p-2 text-white">Sign in to your account</p>
+        <p className="text-center p-2 text-white">{t('Sign in to your account')}</p>
         <motion.div
           className="mb-4 flex items-center"
           initial={{ opacity: 0, x: -20 }}
@@ -106,17 +108,17 @@ const SigninForm: React.FC = () => {
           whileTap={{ scale: 0.95 }}
           className="bg-blue-500 text-white p-2 rounded-md w-full hover:bg-blue-600"
         >
-          Sign In
+          {t('Sign In')}
         </motion.button>
         <button
           type="button"
           className="bg-green-500 mt-4 text-white p-2 rounded-md w-full hover:bg-green-600"
           onClick={() => navigate("/")}
         >
-          Continue As Guest
+          {t('Continue As Guest')}
         </button>
         <p className="mt-4 text-center text-white">
-          Don't Have An Account? <Link to="/signup" className="text-green-600">Sign Up</Link>
+        {t("Don't Have An Account?")} <Link to="/signup" className="text-green-600">{t('Sign Up')}</Link>
         </p>
       </motion.form>
       {isMobile && <div className="absolute top-60 right-40 p-8 text-white text-2xl font-bold">

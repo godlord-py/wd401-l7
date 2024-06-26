@@ -4,8 +4,10 @@ import { searchMatch } from '../../context/members/actions.ts';
 import { useMatchDispatch, useMatchState } from '../../context/members/context.tsx';
 import { API_ENDPOINT } from '../../config/constants.ts';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
 
 const HomePage = () => {
+  const { t } = useTranslation()
   const dispatch = useMatchDispatch();
   const state = useMatchState();
   const { matches, isLoading, isError, errorMessage } = state;
@@ -45,7 +47,7 @@ const HomePage = () => {
   return (
     <div className="scroll-bar">
       <div className="flex justify-between items-center mb-4 px-4">
-        <h2 className="font-bold text-3xl text-black dark:text-white">Live Sports:</h2>
+        <h2 className="live_sports font-bold text-3xl text-black dark:text-white">{t('Live Sports')}:</h2>
         <button onClick={handleRefresh}  id="refreshbutton" className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
           <RefreshIcon className="w-6 h-6" />
         </button>

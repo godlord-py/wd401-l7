@@ -1,5 +1,5 @@
 import './App.css'
-import React from 'react'
+import React, { useState } from 'react'
 import router from './routes'
 import { RouterProvider } from 'react-router-dom'
 import { MatchProvider } from './context/members/context'
@@ -8,20 +8,27 @@ import { SportProvider } from './context/sports/context'
 import { TeamProvider } from './context/teams/context'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from "react-i18next";
 function App() {
+  const { t, i18n: {changeLanguage, language} } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState(language)
+
+  const handleChangeLanguage = () => {
+    const newLanguage = currentLanguage === "en" ? "pt" : "en";
+    setCurrentLanguage(newLanguage);
+    changeLanguage(newLanguage);
+  }
   return (
-    <div>
-      <MatchProvider>
-        <ArticleProvider>
-          <SportProvider>
-            <TeamProvider>
-          <RouterProvider router={router} />
-          <ToastContainer/>
-          </TeamProvider>
-          </SportProvider>
-        </ArticleProvider>
-      </MatchProvider>
-    </div>  
+        <MatchProvider>
+          <ArticleProvider>
+            <SportProvider>
+              <TeamProvider>
+                <RouterProvider router={router} />
+                <ToastContainer />
+              </TeamProvider>
+            </SportProvider>
+          </ArticleProvider>
+        </MatchProvider>
   )
 }
     
