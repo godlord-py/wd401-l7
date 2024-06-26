@@ -68,10 +68,6 @@ jobs:
           npm install cypress
           npm run cy:run  
 
-      # Step 11: Deploy to Netlify
-      - name: Deploy to Netlify
-        run: |
-          npx netlify deploy --prod
 
       # Step to notify on failure
       - name: Notify on failure using Discord webhook
