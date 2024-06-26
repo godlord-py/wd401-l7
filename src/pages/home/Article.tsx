@@ -10,7 +10,7 @@ import ArticleModal from "./ArticleModel";
 import { API_ENDPOINT } from "../../config/constants";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { formatDate, formatTime } from '/home/godlord/capstone301/sportnewsapp/src/locale/Date.ts' 
+import { formatDate, formatTime } from "../../utils/date";
 
 const LiveArticles = () => {
   const {t} = useTranslation();
