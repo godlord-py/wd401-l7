@@ -46,6 +46,7 @@ const HomePage = () => {
 
   return (
     <div className="scroll-bar">
+    <button onClick={() => methodDoesNotExist()}>Break the world</button>;
       <div className="flex justify-between items-center mb-4 px-4">
         <h2 className="live_sports font-bold text-3xl text-black dark:text-white">{t('Live Sports')}:</h2>
         <button onClick={handleRefresh}  id="refreshbutton" className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
@@ -104,7 +105,9 @@ const HomePage = () => {
                 <MapIcon className="w-4 h-4 mr-2 text-gray-300" />
                 <p>{match.location}</p>
                 <RefreshIcon onClick={handleRefresh} className="w-6 h-6 ml-40" />
+                
               </div>
+              
             </motion.div>
           ))}
         </div>

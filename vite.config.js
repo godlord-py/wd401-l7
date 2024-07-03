@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa';
@@ -42,10 +43,18 @@ export default defineConfig({
       theme_color: '#AAF',
     },
   }),
-],  
-server: {
-  proxy: {
-    '/api': 'http://localhost:5000',
+  sentryVitePlugin({
+    org: "gh-raisoni-college-of-engin-h5",
+    project: "sportnewsapp",
+  }),
+],
+  server: {
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
   },
-},
+
+  build: {
+    sourcemap: true
+  }
 });
