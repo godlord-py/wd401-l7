@@ -15,7 +15,7 @@ function App() {
   const [currentLanguage, setCurrentLanguage] = useState(language)
 
   const handleChangeLanguage = () => {
-    const newLanguage = currentLanguage === "en" ? "pt" : "en";
+    const newLanguage = currentLanguage === "en" ? "es" : "en";
     setCurrentLanguage(newLanguage);
     changeLanguage(newLanguage);
   }

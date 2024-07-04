@@ -1,10 +1,9 @@
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './index.css'
 import 'rsuite/dist/rsuite.min.css'
 import * as Sentry from "@sentry/react";
-
+import "/home/godlord/capstone301/sportnewsapp/src/i18n.ts"
 
 Sentry.init({
   dsn: "https://2cffd16480c0b37b5cf5fae416535d6a@o4507533446283264.ingest.us.sentry.io/4507538538102784",

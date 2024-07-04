@@ -44,7 +44,6 @@ export default defineConfig({
     },
   }),
   sentryVitePlugin({
-    authToken: process.env.SENTRY_AUTH_TOKEN,
     org: "gh-raisoni-college-of-engin-h5",
     project: "sportnewsapp",
   }),
