@@ -35,10 +35,11 @@ jobs:
           cd backend 
           npm install  
 
-      # Step 5: Build Docker image for the frontend
+   # Step 5: Build Docker image for the frontend
       - name: Build frontend Docker image
         run: |
-          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-frontend:latest -f Dockerfile.frontend .  
+          docker build -t ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-frontend:latest -f Dockerfile.frontend .
+
 
       # Step 6: Build Docker image for the backend
       - name: Build backend Docker image

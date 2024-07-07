@@ -1,4 +1,3 @@
-import "/home/godlord/capstone301/sportnewsapp/src/instrument.ts";
 import './App.css'
 import React, { useState } from 'react'
 import router from './routes'
