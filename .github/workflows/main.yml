@@ -23,12 +23,7 @@ jobs:
         uses: actions/setup-node@v2  # Use the actions/setup-node action to set up Node.js
         with:
           node-version: '14'  # Specify the Node.js version to use
-     # Step 10: Install Cypress and run tests
-      - name: Install Cypress and run tests
-        run: |
-         npm install cypress
-         npm run cy:run  
-
+    
       # Step 3: Install frontend dependencies
       - name: Install frontend dependencies
         run: |
@@ -67,7 +62,12 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/sportnewsapp-backend:latest  
 
-     
+       # Step 10: Install Cypress and run tests
+      - name: Install Cypress and run tests
+        run: |
+         npm install cypress
+            npm run cy:run  
+
       # Step to notify on failure
       - name: Notify on failure using Discord webhook
         if: failure()
