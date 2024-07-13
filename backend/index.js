@@ -12,7 +12,9 @@ let articles = [
     { id: 1, title: 'Sample Article 1', content: 'This is the content of Sample Article 1' },
     { id: 2, title: 'Sample Article 2', content: 'This is the content of Sample Article 2' },
 ];
-
+app.get('/', (req, res) => {
+    res.send('This is the Backend!');
+});
 app.get('/api/articles', (req, res) => {
     res.json(articles);
 });
