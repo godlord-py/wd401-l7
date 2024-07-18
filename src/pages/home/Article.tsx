@@ -173,7 +173,7 @@ const LiveArticles = () => {
 </select>
 
 
-<label className="text-md font-semibold ml-8 mr-2">{t('Filter by Teams')}</label>
+<label className="text-md font-semibold ml-8 mr-2 hover:text-red-600 transition-all">{t('Filter by Teams')}</label>
 <select
   className="px-4 py-2 border-4 border-gray-300 rounded-lg bg-gray-100 text-gray-800 focus:outline-none focus:border-blue-500 transition duration-300 ease-in-out hover:shadow-lg hover:bg-blue-100"
   value={selectedTeam}
