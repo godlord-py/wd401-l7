@@ -48,8 +48,8 @@ const HomePage = () => {
     <div className="scroll-bar">
     <button onClick={() => methodDoesNotExist()}>Break the world</button>
       <div className="flex justify-between items-center mb-4 px-4">
-        <h2 className="live_sports font-bold text-3xl text-black dark:text-white">{t('Live Sports')}:</h2>
-        <button onClick={handleRefresh}  id="refreshbutton" className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
+        <h2 className="font-bold text-3xl text-black dark:text-white">Live Sports:</h2>
+        <button onClick={handleRefresh} className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
           <RefreshIcon className="w-6 h-6" />
         </button>
       </div>
