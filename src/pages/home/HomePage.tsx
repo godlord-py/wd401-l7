@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { RefreshIcon, CalendarIcon, MapIcon } from '@heroicons/react/solid';
-import { searchMatch } from '../../context/members/actions.ts';
-import { useMatchDispatch, useMatchState } from '../../context/members/context.tsx';
-import { API_ENDPOINT } from '../../config/constants.ts';
+import { searchMatch } from '../../context/members/actions';
+import { useMatchDispatch, useMatchState } from '../../context/members/context';
+import { API_ENDPOINT } from '../../config/constants';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
