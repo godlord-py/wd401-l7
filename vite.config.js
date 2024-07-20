@@ -42,6 +42,7 @@ export default defineConfig({
       ],
       theme_color: '#AAF',
     },
+    base: "/vite-react-deploy/",
   }),
   sentryVitePlugin({
     org: "gh-raisoni-college-of-engin-h5",
