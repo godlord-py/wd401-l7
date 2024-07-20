@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "main": "src/main.tsx",
   "scripts": {
     "dev": "vite",
     "test": "jest",
@@ -53,7 +54,7 @@
     "autoprefixer": "^10.4.17",
     "babel-jest": "^29.7.0",
     "css-loader": "^7.1.1",
-    "cypress": "^13.12.0",
+    "cypress": "^13.13.1",
     "eslint": "^8.56.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
