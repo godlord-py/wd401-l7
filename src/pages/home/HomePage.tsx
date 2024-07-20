@@ -48,7 +48,7 @@ const HomePage = () => {
     <div className="scroll-bar">
     <button onClick={() => methodDoesNotExist()}>Break the world</button>
       <div className="flex justify-between items-center mb-4 px-4">
-        <h2 className="font-bold text-4xl text-slate-900 dark:text-white hover:text-blue-900 transition-all">Live Sports:</h2>
+        <h2 className="font-bold text-5xl text-slate-900 dark:text-white hover:text-blue-900 transition-all">Live Sports:</h2>
         <button onClick={handleRefresh} className="bg-gray-500 text-white p-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-400">
           <RefreshIcon className="w-6 h-6" />
         </button>
