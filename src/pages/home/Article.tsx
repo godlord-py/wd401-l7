@@ -20,7 +20,7 @@ const LiveArticles = () => {
   const locale = navigator.language; 
   const sportDispatch = useSportDispatch();
   const TeamDispatch = useTeamDispatch();
-  const sportState: any = useSportState();
+  const sportState: any = useSportState(); 
   const teamState: any = useTeamState();
   const { sports, isLoading: sportLoading, isError: sportError, errMsg: sportErrMsg } = sportState;
   const { teams, isLoading: teamLoading, isError: teamError, errMsg: teamErrMsg } = teamState;

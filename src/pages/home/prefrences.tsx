@@ -28,8 +28,8 @@ const Preferences: React.FC<PreferencesProps> = ({ show, onClose, authToken }) =
   const teamDispatch = useTeamDispatch();
   const sportState = useSportState();
   const teamState = useTeamState();
-  const { sports, isError: sportError, errMsg: sportErrorMessage } = sportState;
-  const { teams, isError: teamError, errMsg: teamErrorMessage } = teamState;
+  const { sports, isError: sportError, errorMessage: sportErrorMessage } = sportState;
+  const { teams, isError: teamError, errorMessage: teamErrorMessage } = teamState;
 // Fetch user preferences using the hook
 const userpref = useUserPreferences(authToken);
 
